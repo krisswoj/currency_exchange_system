@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      th:include="layout :: page">
+
+<div class="container" th:fragment="content">
+
+    <div th:if="${not #lists.isEmpty(counts)}">
+        <h2>Lista wędek</h2>
+        <table class="table table-striped">
+            <tr>
+                <th>ID Wedki</th>
+                <th>Marka</th>
+                <th>Model</th>
+                <th>Cena</th>
+                <th>Operacje</th>
+            </tr>
+            <tr th:each="count : ${counts}">
+                <td th:text="${count.id}"></td>
+                <td th:text="${count.brand}"></td>
+                <td th:text="${count.model}"></td>
+                <td th:text="${count.price}"></td>
+                <td><a href="list.html" th:href="@{/rods-test/(id=${count.id})}">Usun</a></td>
+            </tr>
+        </table>
+    </div>
+
+</div>

@@ -1,0 +1,51 @@
+<header xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <nav class="navbar-inverse">
+        <div class="navbar-header">
+            <a class="navbar-brand">Generator diet</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">Twój profil
+                        <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="./calculator">Wylicz zapotrzebowanie kaloryczne</a></li>
+                        <li><a href="./calorie-history">Historia</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">Zarządzaj składnikami
+                        <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="./show-food-ingredients">Lista skłaników w bazie</a></li>
+                        <li><a href="./add-food-ingredient">Dodaj nowe składniki</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">Zarządzaj posiłkami
+                        <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="./ready-meals-list">Lista posiłków w bazie</a></li>
+                        <li><a href="./create-meal">Utwórz nowy posiłek</a></li>
+                        <li><a href="#">Posiłki dla Ciebie</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">Old
+                        <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="./add-rod">Dodaj nową wędkę</a></li>
+                        <li><a href="./show-rods">Lista wędek</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <form th:action="@{/logout}" method="get">
+                        <button class="btn btn-md btn-danger btn-block logout_button" name="registration"
+                                type="Submit">Logout
+                        </button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>
