@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<currency_list>
+    <currency>
+        <fromCurrency>PLN</fromCurrency>
+        <toCurrency>EUR</toCurrency>
+    </currency>
+    <currency>
+        <fromCurrency>PLN</fromCurrency>
+        <toCurrency>USD</toCurrency>
+    </currency>
+    <currency>
+        <fromCurrency>PLN</fromCurrency>
+        <toCurrency>GBP</toCurrency>
+    </currency>
+    <currency>
+        <fromCurrency>PLN</fromCurrency>
+        <toCurrency>CHF</toCurrency>
+    </currency>
+</currency_list>

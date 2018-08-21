@@ -1,11 +1,25 @@
 package pl.krzysiek.api.currency_api;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.*;
+import com.fasterxml.jackson.databind.deser.ContextualDeserializer;
 import com.google.gson.annotations.SerializedName;
+import org.assertj.core.util.Arrays;
+import pl.krzysiek.domain.Currency;
+
+import java.io.IOException;
+import java.util.*;
+
 
 public class JsonCurrencyResponse {
 
+
     private Query query;
     private Results results;
+
 
     public Query getQuery() {
         return query;
@@ -23,7 +37,6 @@ public class JsonCurrencyResponse {
         this.results = results;
     }
 
-
     public class Query {
 
         private int count;
@@ -40,14 +53,14 @@ public class JsonCurrencyResponse {
 
     public class Results {
 
-        @SerializedName(value = "USD_PLN", alternate = {"EUR_PLN", "PLN_USD", "PLN_EUR"})
+        @SerializedName(value = "PLN_EUR", alternate = {"PLN_USD", "PLN_GBP", "PLN_CHF", "EUR_PLN", "USD_PLN", "GBP_PLN", "CHF_PLN"})
         private CurrencyRateJson currencyRateJson;
 
-        public CurrencyRateJson getCurrencyRate() {
+        public CurrencyRateJson getCurrencyRateJson() {
             return currencyRateJson;
         }
 
-        public void setCurrencyRate(CurrencyRateJson currencyRateJson) {
+        public void setCurrencyRateJson(CurrencyRateJson currencyRateJson) {
             this.currencyRateJson = currencyRateJson;
         }
     }

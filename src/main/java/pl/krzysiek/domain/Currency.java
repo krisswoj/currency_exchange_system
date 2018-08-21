@@ -1,14 +1,12 @@
 package pl.krzysiek.domain;
 
-import com.google.gson.annotations.SerializedName;
-
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
 @Table(name = "currency_rate", schema = "cantor", catalog = "")
-public class CurrencyRate {
+public class Currency {
 
 
     private int id;
@@ -18,14 +16,20 @@ public class CurrencyRate {
     private String toCurrency;
     private Timestamp addDate;
 
-    public CurrencyRate(String currencyPair, Double rateValue, String fromCurrency, String toCurrency) {
+    public Currency(String currencyPair, Double rateValue, String fromCurrency, String toCurrency) {
         this.currencyPair = currencyPair;
         this.rateValue = rateValue;
         this.fromCurrency = fromCurrency;
         this.toCurrency = toCurrency;
     }
 
-    public CurrencyRate() {
+    public Currency(String currencyPair, String fromCurrency, String toCurrency) {
+        this.currencyPair = currencyPair;
+        this.fromCurrency = fromCurrency;
+        this.toCurrency = toCurrency;
+    }
+
+    public Currency() {
     }
 
     @Id
@@ -93,7 +97,7 @@ public class CurrencyRate {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        CurrencyRate that = (CurrencyRate) o;
+        Currency that = (Currency) o;
         return id == that.id &&
                 Objects.equals(currencyPair, that.currencyPair) &&
                 Objects.equals(rateValue, that.rateValue) &&

@@ -11,7 +11,4 @@ public interface IAccountRepository extends CrudRepository<Account, Integer> {
     Account findByName(String name);
     Account findByEmail(String email);
     Account findByPassword(String password);
-
-
-
 }
