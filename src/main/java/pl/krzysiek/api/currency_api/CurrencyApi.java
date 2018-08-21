@@ -12,8 +12,10 @@ import java.util.Map;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import org.springframework.stereotype.Service;
 import pl.krzysiek.domain.Currency;
 
+@Service
 public class CurrencyApi {
 
     private final Gson gson = new Gson();

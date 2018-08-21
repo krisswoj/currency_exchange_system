@@ -1,6 +1,5 @@
 package pl.krzysiek.web;
 
-import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import pl.krzysiek.api.currency_api.CurrencyApi;
@@ -28,33 +27,33 @@ public class CantorRestApi {
 
     @RequestMapping(value = "/simpay/{code}", method = RequestMethod.GET)
     public String simpayAnswer(@PathVariable("code") String code) throws IOException {
-
         SimpayApi simpayApi = new SimpayApi("xxxx", "xxxx");
         return String.valueOf(simpayApi.getStatus(995, 92555, code));
     }
 
     @RequestMapping(value = "/currency/{from}/{to}", method = RequestMethod.GET)
     public Currency currency(@PathVariable("from") String from, @PathVariable("to") String to) throws IOException {
-
         Currency currency = new CurrencyApi().getActuallyRate(from, to);
         return currencyRepository.save(currency);
     }
 
     @RequestMapping(value = "/last", method = RequestMethod.GET)
-    public List<Currency> last(){
-
-        return (List<Currency>) currencyRepository.lastTenEurPlnRates();
+    public List<Currency> last() {
+        return currencyRepository.lastTenCurrencyPairRates("USD_PLN");
     }
 
     @RequestMapping(value = "/all-xml", method = RequestMethod.GET)
-    public List<Currency> getAllFromXml(){
+    public List<Currency> getAllFromXml() {
         return currencyService.getAllCurrencies();
     }
 
-    @RequestMapping(value = "/update-currency-rate", method = RequestMethod.GET)
-    public List<Currency> updateCurrencyRate(){
+    @RequestMapping(value = "/update-all", method = RequestMethod.GET)
+    public List<Currency> updateCurrencyRate() throws IOException {
+        return currencyService.updateRateAllCurrency();
+    }
 
-
-        return null;
+    @RequestMapping(value = "/last-rates", method = RequestMethod.GET)
+    public List<List<Currency>> lastTenRatesAllCurrency(){
+        return currencyService.getLastTenRatesAllCurrency();
     }
 }
