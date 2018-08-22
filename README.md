@@ -16,3 +16,5 @@ The project allows:
 - jQuery
 - Bootstrap
 - Externals API
+
+![alt text](http://v55581844.wirt29.bhlink.pl/img/6.png)

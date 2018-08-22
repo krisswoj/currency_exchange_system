@@ -11,7 +11,12 @@ import java.util.List;
 @Repository
 public interface ICurrencyRepository extends CrudRepository<Currency, Integer> {
 
-    @Query(nativeQuery = true, value = "select * from cantor.currency_rate where currency_rate.pair_name = ?1 order by ID limit 10")
-    List<Currency> lastTenCurrencyPairRates(String currenyPair);
+    @Query(nativeQuery = true, value = "select * from cantor.currency where currency.pair_name = ?1 order by ID limit ?2")
+    List<Currency> lastCurrencyPairRates(String currenyPair, Integer amountRecords);
+
+    @Query(nativeQuery = true, value = "select * from cantor.currency where currency.pair_name = ?1 order by ID limit 1")
+    Currency lastSingleCurrencyPairRates(String currencyPair);
+
+
 
 }

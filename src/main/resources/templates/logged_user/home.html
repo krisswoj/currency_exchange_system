@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      th:include="layout :: page">
+
+<div class="container" th:fragment="content">
+
+
+    <div id="page-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">Panel partnera</h1>
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+        <!-- /.row -->
+        <div class="row">
+            <div class="col-lg-3 col-md-6">
+                <div class="panel panel-green">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <i class="fa fa-euro fa-3x"></i>
+                            </div>
+                            <div class="col-xs-9 text-right">
+                                <div class="huge">4,36 zł</div>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="#">
+                        <div class="panel-footer-own">
+                            <span class="pull-right">2018-08-18 23:22:36</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="panel panel-green">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <i class="fa fa-dollar fa-3x"></i>
+                            </div>
+                            <div class="col-xs-9 text-right">
+                                <div class="huge">3,33 zł</div>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="#">
+                        <div class="panel-footer-own">
+                            <span class="pull-right">2018-08-18 23:22:36</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="panel panel-red">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <i class="fa fa-gbp fa-3x"></i>
+                            </div>
+                            <div class="col-xs-9 text-right">
+                                <div class="huge">5,23 zł</div>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="#">
+                        <div class="panel-footer-own">
+                            <span class="pull-right">2018-08-18 23:22:36</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="panel panel-red">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <i class="fa fa-cny fa-3x"></i>
+                            </div>
+                            <div class="col-xs-9 text-right">
+                                <div class="huge">0,65 zł</div>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="#">
+                        <div class="panel-footer-own">
+                            <span class="pull-right">2018-08-18 23:22:36</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <!-- /.row -->
+        <div class="row">
+            <div class="col-lg-9">
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Ostatnio wykonane transakcje
+                    </div>
+                    <!-- /.panel-heading -->
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>Data</th>
+                                    <th>Rodzaj transakcji</th>
+                                    <th>Waluta</th>
+                                    <th>Kwota</th>
+                                    <th>Odbiorca</th>
+                                    <th>Status</th>
+                                    <th>Szczegóły</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>2018-08-19 09:02:45</td>
+                                    <td>Zakup losu</td>
+                                    <td>PLN</td>
+                                    <td>-20,00</td>
+                                    <td>Kasyno</td>
+                                    <td>Zakończona</td>
+                                    <td>Podgląd</td>
+                                </tr>
+                                <tr>
+                                    <td>2018-08-18 23:27:50</td>
+                                    <td>Transfer funduszy</td>
+                                    <td>PLN</td>
+                                    <td>-100,00</td>
+                                    <td>krisswoj@gmail.com</td>
+                                    <td>Zakończona</td>
+                                    <td>Podgląd</td>
+                                </tr>
+                                <tr>
+                                    <td>2018-08-18 23:22:47</td>
+                                    <td>Dodanie środków</td>
+                                    <td>PLN</td>
+                                    <td>200,00</td>
+                                    <td>System</td>
+                                    <td>Zakończona</td>
+                                    <td>Podgląd</td>
+                                </tr>
+                                <tr>
+                                    <td>2018-08-18 23:20:04</td>
+                                    <td>Zakup waluty</td>
+                                    <td>USD</td>
+                                    <td>68,11</td>
+                                    <td>System</td>
+                                    <td>Zakończona</td>
+                                    <td>Podgląd</td>
+                                </tr>
+                                <tr>
+                                    <td>2018-08-18 23:20:04</td>
+                                    <td>Sprzedaż waluty</td>
+                                    <td>PLN</td>
+                                    <td>-250,00</td>
+                                    <td>System</td>
+                                    <td>Zakończona</td>
+                                    <td>Podgląd</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.table-responsive -->
+                    </div>
+                    <!-- /.panel-body -->
+                </div>
+
+            </div>
+
+
+            <div class="col-lg-3">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <i class="fa fa-dollar fa-fw"></i> Twój portfel
+                    </div>
+                    <!-- /.panel-heading -->
+                    <div class="panel-body">
+                        <div class="list-group">
+                            <a href="#" class="list-group-item">
+                                <strong>zł</strong><i class="fa fa-fw"></i> PLN
+                                <span class="pull-right text-muted small"><em>450,40</em>
+                                    </span>
+                            </a>
+                            <a href="#" class="list-group-item">
+                                <i class="fa fa-euro fa-fw"></i> EUR
+                                <span class="pull-right text-muted small"><em>0,00</em>
+                                    </span>
+                            </a>
+                            <a href="#" class="list-group-item">
+                                <i class="fa fa-dollar fa-fw"></i> USD
+                                <span class="pull-right text-muted small"><em>0,00</em>
+                                    </span>
+                            </a>
+                            <a href="#" class="list-group-item">
+                                <i class="fa fa-cny fa-fw"></i> CNY
+                                <span class="pull-right text-muted small"><em>0,00</em>
+                                    </span>
+                            </a>
+                        </div>
+                        <!-- /.list-group -->
+                        <a href="#" class="btn btn-default btn-block">Aktualizuj kurs walut</a>
+                    </div>
+                    <!-- /.panel-body -->
+                </div>
+                <!-- /.panel -->
+                <!-- /.panel -->
+                <!-- /.panel .chat-panel -->
+            </div>
+            <!-- /.col-lg-4 -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /#page-wrapper -->
+
+</div>
+<!-- /#wrapper -->
+</div>
+</html>
+
+
+
+
+
+
+
+

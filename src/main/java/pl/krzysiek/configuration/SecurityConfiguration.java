@@ -45,13 +45,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 		http.
 			authorizeRequests()
-				.antMatchers("/", "/login", "/register", "/currency", "/last").permitAll()
-				.antMatchers("/add_rod/**").hasAuthority("USER")
+				.antMatchers("/", "/login", "/register").permitAll()
+				.antMatchers("/user/**").hasAuthority("USER")
 				.antMatchers("/show_rods/**").hasAnyAuthority("USER", "ADMIN")
 				.antMatchers("/admin/**").hasAuthority("ADMIN").anyRequest()
 				.authenticated().and().csrf().disable().formLogin()
 				.loginPage("/login").failureUrl("/login?error=true")
-				.defaultSuccessUrl("/add-rod")
+				.defaultSuccessUrl("/user/home")
 				.usernameParameter("email")
 				.passwordParameter("password")
 				.and().logout()

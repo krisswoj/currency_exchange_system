@@ -1,21 +1,18 @@
-package pl.krzysiek.controllers;
+package pl.krzysiek.controllers.user;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-import sun.awt.ModalExclude;
 
 @Controller
-public class HomePageController {
+public class AddFundsController {
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    public ModelAndView homePage(){
+    @RequestMapping(value = "/user/addfunds/sms", method = RequestMethod.GET)
+    public ModelAndView addFundsBySmsView(){
         ModelAndView modelAndView = new ModelAndView();
-
 
 
         return modelAndView;
     }
-
 }

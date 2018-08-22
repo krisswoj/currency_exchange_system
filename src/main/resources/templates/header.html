@@ -1,43 +1,31 @@
 <header xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
     <nav class="navbar-inverse">
         <div class="navbar-header">
-            <a class="navbar-brand">Generator diet</a>
+            <a class="navbar-brand">Cantor</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
+                <li><a href="#">Wyślij pieniądze</a></li>
+                <li><a href="#">Wymiana walut</a></li>
                 <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">Twój profil
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">Dodaj środki
                         <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="./calculator">Wylicz zapotrzebowanie kaloryczne</a></li>
-                        <li><a href="./calorie-history">Historia</a></li>
+                        <li><a href="./show-food-ingredients">SMS Premium</a></li>
+                        <li><a href="./add-food-ingredient">PayPal</a></li>
+                        <li><a href="./add-food-ingredient">Przelew bankowy</a></li>
+                    </ul>
+                </li>
+                <li><a href="#">Kasyno</a></li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">Zarządzaj kontem
+                        <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="./ready-meals-list">Twoje dane</a></li>
+                        <li><a href="./create-meal">Historia operacji</a></li>
                     </ul>
                 </li>
                 <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">Zarządzaj składnikami
-                        <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="./show-food-ingredients">Lista skłaników w bazie</a></li>
-                        <li><a href="./add-food-ingredient">Dodaj nowe składniki</a></li>
-                    </ul>
-                </li>
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">Zarządzaj posiłkami
-                        <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="./ready-meals-list">Lista posiłków w bazie</a></li>
-                        <li><a href="./create-meal">Utwórz nowy posiłek</a></li>
-                        <li><a href="#">Posiłki dla Ciebie</a></li>
-                    </ul>
-                </li>
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">Old
-                        <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="./add-rod">Dodaj nową wędkę</a></li>
-                        <li><a href="./show-rods">Lista wędek</a></li>
-                    </ul>
-                </li>
                 <li class="nav-item">
                     <form th:action="@{/logout}" method="get">
                         <button class="btn btn-md btn-danger btn-block logout_button" name="registration"

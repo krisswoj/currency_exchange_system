@@ -37,14 +37,9 @@ public class CantorRestApi {
         return currencyRepository.save(currency);
     }
 
-    @RequestMapping(value = "/last", method = RequestMethod.GET)
-    public List<Currency> last() {
-        return currencyRepository.lastTenCurrencyPairRates("USD_PLN");
-    }
-
     @RequestMapping(value = "/all-xml", method = RequestMethod.GET)
     public List<Currency> getAllFromXml() {
-        return currencyService.getAllCurrencies();
+        return currencyService.allCurrenciesFromXml();
     }
 
     @RequestMapping(value = "/update-all", method = RequestMethod.GET)
@@ -52,8 +47,19 @@ public class CantorRestApi {
         return currencyService.updateRateAllCurrency();
     }
 
-    @RequestMapping(value = "/last-rates", method = RequestMethod.GET)
-    public List<List<Currency>> lastTenRatesAllCurrency(){
-        return currencyService.getLastTenRatesAllCurrency();
+    @RequestMapping(value = "/last-rates/{amount}", method = RequestMethod.GET)
+    public List<List<Currency>> lastXAllCurrency(@PathVariable ("amount") Integer amount){
+        return currencyService.lastXRatesAllCurrency(amount);
     }
+
+    @RequestMapping(value = "/last-rates", method = RequestMethod.GET)
+    public List<Currency> lastAllCurrencyRates(){
+        return currencyService.lastAllCurrencyRates();
+    }
+
+    @RequestMapping(value = "/last-rate/{currencyPair}", method = RequestMethod.GET)
+    public Currency lastCurrency(@PathVariable ("currencyPair") String currencyPair){
+        return currencyRepository.lastSingleCurrencyPairRates(currencyPair);
+    }
+
 }

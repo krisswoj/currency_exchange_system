@@ -244,7 +244,7 @@ body {
     margin: 15px 0;
 }
 .huge {
-    font-size: 40px;
+    font-size: 30px;
 }
 .panel-green {
     border-color: #5cb85c;
@@ -1189,4 +1189,14 @@ body {
     border: 0
 }
 
+.panel-footer-own{
+    border-bottom-right-radius: 3px;
+    border-bottom-left-radius: 3px;
+    padding-bottom: 20px;
+    padding-right: 5px;
+}
 
+.main-content{
+
+    padding-top: 15px;
+}

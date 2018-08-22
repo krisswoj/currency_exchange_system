@@ -12,7 +12,9 @@ import java.util.List;
 public interface CurrencyService {
 
     List<Currency> updateRateAllCurrency() throws IOException;
-    List<Currency> getAllCurrencies();
-    List<List<Currency>> getLastTenRatesAllCurrency();
+    List<Currency> allCurrenciesFromXml();
+    List<List<Currency>> lastXRatesAllCurrency(Integer recordAmount);
+
+    List<Currency> lastAllCurrencyRates();
 
 }

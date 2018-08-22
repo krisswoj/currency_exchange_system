@@ -1,7 +1,6 @@
 package pl.krzysiek.services.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 import pl.krzysiek.api.currency_api.CurrencyApi;
 import pl.krzysiek.dao.ICurrencyRepository;
@@ -11,7 +10,6 @@ import pl.krzysiek.services.ReaderXMLFilesService;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 @Service
@@ -28,7 +26,7 @@ public class CurrencyServiceImpl implements CurrencyService {
     public List<Currency> updateRateAllCurrency() throws IOException {
         List<Currency> currentRates = new ArrayList<>();
 
-        for (Currency currency : this.getAllCurrencies()) {
+        for (Currency currency : this.allCurrenciesFromXml()) {
             currentRates.add(currencyApi.getActuallyRate(currency.getFromCurrency(), currency.getToCurrency()));
             currencyRepository.save(currentRates.get(currentRates.size() - 1));
         }
@@ -36,7 +34,7 @@ public class CurrencyServiceImpl implements CurrencyService {
     }
 
     @Override
-    public List<Currency> getAllCurrencies() {
+    public List<Currency> allCurrenciesFromXml() {
 
         String xmlPath = "xml_files/currency_list.xml";
         String xmlId = "currency";
@@ -63,15 +61,25 @@ public class CurrencyServiceImpl implements CurrencyService {
     }
 
     @Override
-    public List<List<Currency>> getLastTenRatesAllCurrency() {
+    public List<List<Currency>> lastXRatesAllCurrency(Integer recordAmount) {
 
         List<List<Currency>> mainList = new ArrayList<>();
 
-        for (Currency currency : this.getAllCurrencies()) {
-            List<Currency> currencyList = currencyRepository.lastTenCurrencyPairRates(currency.getPairName());
+        for (Currency currency : this.allCurrenciesFromXml()) {
+            List<Currency> currencyList = currencyRepository.lastCurrencyPairRates(currency.getPairName(), recordAmount);
             mainList.add(currencyList);
         }
         return mainList;
+    }
+
+    @Override
+    public List<Currency> lastAllCurrencyRates() {
+
+        List<Currency> currencyList = new ArrayList<>();
+        for(Currency currency : this.allCurrenciesFromXml()){
+            currencyList.add(currencyRepository.lastSingleCurrencyPairRates(currency.getPairName()));
+        }
+        return currencyList;
     }
 
 }
