@@ -5,13 +5,13 @@ import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
-@Table(name = "currency", schema = "cantor", catalog = "")
+@Table(name = "currency_rate", schema = "cantor", catalog = "")
 public class Currency {
 
 
     private int id;
     private String currencyPair;
-    private double rateValue;
+    private Double rateValue;
     private String fromCurrency;
     private String toCurrency;
     private Timestamp addDate;
@@ -55,11 +55,11 @@ public class Currency {
 
     @Basic
     @Column(name = "rate_value")
-    public double getRateValue() {
+    public Double getRateValue() {
         return rateValue;
     }
 
-    public void setRateValue(double rateValue) {
+    public void setRateValue(Double rateValue) {
         this.rateValue = rateValue;
     }
 
@@ -105,6 +105,8 @@ public class Currency {
                 Objects.equals(toCurrency, that.toCurrency) &&
                 Objects.equals(addDate, that.addDate);
     }
+
+
 
     @Override
     public int hashCode() {

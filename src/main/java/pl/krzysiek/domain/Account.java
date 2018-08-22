@@ -1,14 +1,14 @@
 package pl.krzysiek.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.Collection;
 import java.util.Objects;
 import java.util.Set;
 
 @Entity
+@Table(name = "account", schema = "cantor", catalog = "")
 public class Account {
     private int userId;
     private String name;
@@ -16,15 +16,17 @@ public class Account {
     private String email;
     private String password;
     private Integer active;
+    private double plnBalance;
+    private double usdBalance;
+    private double eurBalance;
+    private double chfBalance;
+    private double gbpBalance;
+    private Collection<AddFunds> addFundsByUserId;
+    private Collection<CasinoTransactions> casinoTransactionsByUserId;
+    private Collection<CurrencyTransaction> currencyTransactionsByUserId;
+    private Collection<TransferFunds> transferFundsByUserIdFrom;
+    private Collection<TransferFunds> transferFundsByUserIdTo;
     private Set<Role> roles;
-
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
-    @JsonBackReference
-    public Set<Role> getRoles() { return roles; }
-
-    public void setRoles(Set<Role> roles) { this.roles = roles; }
-
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -87,26 +89,128 @@ public class Account {
         this.active = active;
     }
 
-    public Account() {
+    @Basic
+    @Column(name = "pln_balance")
+    public double getPlnBalance() {
+        return plnBalance;
+    }
+
+    public void setPlnBalance(double plnBalance) {
+        this.plnBalance = plnBalance;
+    }
+
+    @Basic
+    @Column(name = "usd_balance")
+    public double getUsdBalance() {
+        return usdBalance;
+    }
+
+    public void setUsdBalance(double usdBalance) {
+        this.usdBalance = usdBalance;
+    }
+
+    @Basic
+    @Column(name = "eur_balance")
+    public double getEurBalance() {
+        return eurBalance;
+    }
+
+    public void setEurBalance(double eurBalance) {
+        this.eurBalance = eurBalance;
+    }
+
+    @Basic
+    @Column(name = "chf_balance")
+    public double getChfBalance() {
+        return chfBalance;
+    }
+
+    public void setChfBalance(double chfBalance) {
+        this.chfBalance = chfBalance;
+    }
+
+    @Basic
+    @Column(name = "gbp_balance")
+    public double getGbpBalance() {
+        return gbpBalance;
+    }
+
+    public void setGbpBalance(double gbpBalance) {
+        this.gbpBalance = gbpBalance;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Account)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         Account account = (Account) o;
-        return getUserId() == account.getUserId() &&
-                Objects.equals(getName(), account.getName()) &&
-                Objects.equals(getSurname(), account.getSurname()) &&
-                Objects.equals(getEmail(), account.getEmail()) &&
-                Objects.equals(getPassword(), account.getPassword()) &&
-                Objects.equals(getActive(), account.getActive());
-//                Objects.equals(getRole(), account.getRole());
+        return userId == account.userId &&
+                Double.compare(account.plnBalance, plnBalance) == 0 &&
+                Double.compare(account.usdBalance, usdBalance) == 0 &&
+                Double.compare(account.eurBalance, eurBalance) == 0 &&
+                Double.compare(account.chfBalance, chfBalance) == 0 &&
+                Double.compare(account.gbpBalance, gbpBalance) == 0 &&
+                Objects.equals(name, account.name) &&
+                Objects.equals(surname, account.surname) &&
+                Objects.equals(email, account.email) &&
+                Objects.equals(password, account.password) &&
+                Objects.equals(active, account.active);
     }
 
     @Override
     public int hashCode() {
+        return Objects.hash(userId, name, surname, email, password, active, plnBalance, usdBalance, eurBalance, chfBalance, gbpBalance);
+    }
 
-        return Objects.hash(getUserId(), getName(), getSurname(), getEmail(), getPassword(), getActive());
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+    @JsonBackReference
+    public Set<Role> getRoles() { return roles; }
+
+    public void setRoles(Set<Role> roles) { this.roles = roles; }
+
+    @OneToMany(mappedBy = "accountByUserId")
+    public Collection<AddFunds> getAddFundsByUserId() {
+        return addFundsByUserId;
+    }
+
+    public void setAddFundsByUserId(Collection<AddFunds> addFundsByUserId) {
+        this.addFundsByUserId = addFundsByUserId;
+    }
+
+    @OneToMany(mappedBy = "accountByUserId")
+    public Collection<CasinoTransactions> getCasinoTransactionsByUserId() {
+        return casinoTransactionsByUserId;
+    }
+
+    public void setCasinoTransactionsByUserId(Collection<CasinoTransactions> casinoTransactionsByUserId) {
+        this.casinoTransactionsByUserId = casinoTransactionsByUserId;
+    }
+
+    @OneToMany(mappedBy = "accountByUserId")
+    public Collection<CurrencyTransaction> getCurrencyTransactionsByUserId() {
+        return currencyTransactionsByUserId;
+    }
+
+    public void setCurrencyTransactionsByUserId(Collection<CurrencyTransaction> currencyTransactionsByUserId) {
+        this.currencyTransactionsByUserId = currencyTransactionsByUserId;
+    }
+
+    @OneToMany(mappedBy = "accountByUserIdFrom")
+    public Collection<TransferFunds> getTransferFundsByUserIdFrom() {
+        return transferFundsByUserIdFrom;
+    }
+
+    public void setTransferFundsByUserIdFrom(Collection<TransferFunds> transferFundsByUserId) {
+        this.transferFundsByUserIdFrom = transferFundsByUserId;
+    }
+
+    @OneToMany(mappedBy = "accountByUserIdTo")
+    public Collection<TransferFunds> getTransferFundsByUserIdTo() {
+        return transferFundsByUserIdTo;
+    }
+
+    public void setTransferFundsByUserIdTo(Collection<TransferFunds> transferFundsByUserId_0) {
+        this.transferFundsByUserIdTo = transferFundsByUserId_0;
     }
 }
