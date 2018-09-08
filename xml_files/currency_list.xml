@@ -14,6 +14,6 @@
     </currency>
     <currency>
         <fromCurrency>PLN</fromCurrency>
-        <toCurrency>CHF</toCurrency>
+        <toCurrency>CNY</toCurrency>
     </currency>
 </currency_list>

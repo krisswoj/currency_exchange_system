@@ -31,4 +31,6 @@ target/maven-status/maven-compiler-plugin/
 lab01.iml
 /target/**
 target/
-
+/safe-copy/**
+safe-copy/**
+/safe-copy/

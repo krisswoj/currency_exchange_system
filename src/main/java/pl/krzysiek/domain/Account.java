@@ -19,7 +19,7 @@ public class Account {
     private double plnBalance;
     private double usdBalance;
     private double eurBalance;
-    private double chfBalance;
+    private double cnyBalance;
     private double gbpBalance;
     private Collection<AddFunds> addFundsByUserId;
     private Collection<CasinoTransactions> casinoTransactionsByUserId;
@@ -120,13 +120,13 @@ public class Account {
     }
 
     @Basic
-    @Column(name = "chf_balance")
-    public double getChfBalance() {
-        return chfBalance;
+    @Column(name = "cny_balance")
+    public double getCnyBalance() {
+        return cnyBalance;
     }
 
-    public void setChfBalance(double chfBalance) {
-        this.chfBalance = chfBalance;
+    public void setCnyBalance(double cnyBalance) {
+        this.cnyBalance = cnyBalance;
     }
 
     @Basic
@@ -148,7 +148,7 @@ public class Account {
                 Double.compare(account.plnBalance, plnBalance) == 0 &&
                 Double.compare(account.usdBalance, usdBalance) == 0 &&
                 Double.compare(account.eurBalance, eurBalance) == 0 &&
-                Double.compare(account.chfBalance, chfBalance) == 0 &&
+                Double.compare(account.cnyBalance, cnyBalance) == 0 &&
                 Double.compare(account.gbpBalance, gbpBalance) == 0 &&
                 Objects.equals(name, account.name) &&
                 Objects.equals(surname, account.surname) &&
@@ -159,7 +159,7 @@ public class Account {
 
     @Override
     public int hashCode() {
-        return Objects.hash(userId, name, surname, email, password, active, plnBalance, usdBalance, eurBalance, chfBalance, gbpBalance);
+        return Objects.hash(userId, name, surname, email, password, active, plnBalance, usdBalance, eurBalance, cnyBalance, gbpBalance);
     }
 
     @ManyToMany(cascade = CascadeType.ALL)

@@ -2,6 +2,7 @@ package pl.krzysiek.api.simpay;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import org.springframework.stereotype.Service;
 import pl.krzysiek.api.simpay.connection.SimpayStatusRequest;
 import pl.krzysiek.api.simpay.connection.SimpayStatusResponse;
 import pl.krzysiek.api.simpay.models.SimpayAuth;

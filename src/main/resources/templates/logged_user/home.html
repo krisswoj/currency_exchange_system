@@ -20,16 +20,16 @@
                     <div class="panel-heading">
                         <div class="row">
                             <div class="col-xs-3">
-                                <i class="fa fa-euro fa-3x"></i>
+                                <value class="fa fa-euro fa-3x"></value>
                             </div>
                             <div class="col-xs-9 text-right">
-                                <div class="huge">4,36 zł</div>
+                                <div class="huge" th:text="${currency_rates.get('EUR_PLN').rateValue}" />
                             </div>
                         </div>
                     </div>
                     <a href="#">
                         <div class="panel-footer-own">
-                            <span class="pull-right">2018-08-18 23:22:36</span>
+                            <span class="pull-right" th:text="${currency_rates.get('EUR_PLN').addDate}" />
                         </div>
                     </a>
                 </div>
@@ -39,16 +39,16 @@
                     <div class="panel-heading">
                         <div class="row">
                             <div class="col-xs-3">
-                                <i class="fa fa-dollar fa-3x"></i>
+                                <value class="fa fa-dollar fa-3x"></value>
                             </div>
                             <div class="col-xs-9 text-right">
-                                <div class="huge">3,33 zł</div>
+                                <div class="huge" th:text="${currency_rates.get('USD_PLN').rateValue}" />
                             </div>
                         </div>
                     </div>
                     <a href="#">
                         <div class="panel-footer-own">
-                            <span class="pull-right">2018-08-18 23:22:36</span>
+                            <span class="pull-right" th:text="${currency_rates.get('USD_PLN').addDate}" />
                         </div>
                     </a>
                 </div>
@@ -58,16 +58,16 @@
                     <div class="panel-heading">
                         <div class="row">
                             <div class="col-xs-3">
-                                <i class="fa fa-gbp fa-3x"></i>
+                                <value class="fa fa-gbp fa-3x"></value>
                             </div>
                             <div class="col-xs-9 text-right">
-                                <div class="huge">5,23 zł</div>
+                                <div class="huge" th:text="${currency_rates.get('GBP_PLN').rateValue}+' zł'" />
                             </div>
                         </div>
                     </div>
                     <a href="#">
                         <div class="panel-footer-own">
-                            <span class="pull-right">2018-08-18 23:22:36</span>
+                            <span class="pull-right" th:text="${currency_rates.get('GBP_PLN').addDate}+' zł'" />
                         </div>
                     </a>
                 </div>
@@ -77,16 +77,16 @@
                     <div class="panel-heading">
                         <div class="row">
                             <div class="col-xs-3">
-                                <i class="fa fa-cny fa-3x"></i>
+                                <value class="fa fa-cny fa-3x"></value>
                             </div>
                             <div class="col-xs-9 text-right">
-                                <div class="huge">0,65 zł</div>
+                                <div class="huge" th:text="${currency_rates.get('CNY_PLN').rateValue}+' zł'" />
                             </div>
                         </div>
                     </div>
                     <a href="#">
                         <div class="panel-footer-own">
-                            <span class="pull-right">2018-08-18 23:22:36</span>
+                            <span class="pull-right" th:text="${currency_rates.get('CNY_PLN').addDate}+' zł'" />
                         </div>
                     </a>
                 </div>
@@ -175,29 +175,29 @@
             <div class="col-lg-3">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <i class="fa fa-dollar fa-fw"></i> Twój portfel
+                        <value class="fa fa-dollar fa-fw"></value> Twój portfel
                     </div>
                     <!-- /.panel-heading -->
                     <div class="panel-body">
                         <div class="list-group">
                             <a href="#" class="list-group-item">
-                                <strong>zł</strong><i class="fa fa-fw"></i> PLN
-                                <span class="pull-right text-muted small"><em>450,40</em>
+                                <strong>zł</strong><value class="fa fa-fw"></value> PLN
+                                <span class="pull-right text-muted small"><em th:text="${user_balance.get('PLN')}" />
                                     </span>
                             </a>
                             <a href="#" class="list-group-item">
-                                <i class="fa fa-euro fa-fw"></i> EUR
-                                <span class="pull-right text-muted small"><em>0,00</em>
+                                <value class="fa fa-euro fa-fw"></value> EUR
+                                <span class="pull-right text-muted small"><em th:text="${user_balance.get('EUR')}" />
                                     </span>
                             </a>
                             <a href="#" class="list-group-item">
-                                <i class="fa fa-dollar fa-fw"></i> USD
-                                <span class="pull-right text-muted small"><em>0,00</em>
+                                <value class="fa fa-dollar fa-fw"></value> USD
+                                <span class="pull-right text-muted small"><em th:text="${user_balance.get('USD')}" />
                                     </span>
                             </a>
                             <a href="#" class="list-group-item">
-                                <i class="fa fa-cny fa-fw"></i> CNY
-                                <span class="pull-right text-muted small"><em>0,00</em>
+                                <value class="fa fa-cny fa-fw"></value> CNY
+                                <span class="pull-right text-muted small"><em th:text="${user_balance.get('CNY')}" />
                                     </span>
                             </a>
                         </div>

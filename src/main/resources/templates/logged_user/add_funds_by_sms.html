@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      th:include="layout :: page">
+<div class="container" th:fragment="content">
+
+
+    <div id="page-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header smaller_h1">Zasil konto za pomocą SMS</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <form autocomplete="off" action="#" th:action="@{/user/addfunds/sms}"
+                                  th:object="${sms_payment_verify}" method="post" class="form-horizontal" role="form">
+
+
+                                <div class="form-group">
+                                    <p>Kwota doładowania</p>
+                                    <div class="custom-control custom-radio">
+                                        <input type="radio" id="category1" name="premiumNumber" th:value="7155"
+                                               th:checked="*{premiumNumber}" class="custom-control-input">
+                                        <label class="custom-control-label" for="category1">Za 10 zł</label>
+                                    </div>
+                                    <div class="custom-control custom-radio">
+                                        <input type="radio" id="category2" name="premiumNumber" th:value="7555"
+                                               th:checked="*{premiumNumber}" class="custom-control-input">
+                                        <label class="custom-control-label" for="category2">Za 50 zł</label>
+                                    </div>
+                                    <div class="custom-control custom-radio">
+                                        <input type="radio" id="category3" name="premiumNumber" th:value="92555"
+                                               th:checked="*{premiumNumber}" class="custom-control-input">
+                                        <label class="custom-control-label" for="category3">Za 300 zł</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <p>Wprowadź otrzymany kod SMS</p>
+                                        <input type="text" th:field="*{smsCode}" placeholder="Wprowadź kod"
+                                               class="form-control"/>
+                                        <input type="hidden" th:value="995" name="serviceNumber" th:checked="*{serviceNumber}">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-primary btn-block">Doładuj</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

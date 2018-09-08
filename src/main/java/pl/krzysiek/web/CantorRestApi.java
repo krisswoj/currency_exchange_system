@@ -27,7 +27,7 @@ public class CantorRestApi {
 
     @RequestMapping(value = "/simpay/{code}", method = RequestMethod.GET)
     public String simpayAnswer(@PathVariable("code") String code) throws IOException {
-        SimpayApi simpayApi = new SimpayApi("xxxx", "xxxx");
+        SimpayApi simpayApi = new SimpayApi("880ecda9", "02e93146be06015c5c9ad8fb95fd0c8b");
         return String.valueOf(simpayApi.getStatus(995, 92555, code));
     }
 

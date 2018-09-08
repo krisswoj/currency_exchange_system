@@ -16,6 +16,7 @@ public class AddFunds {
     private Timestamp lastEditDate;
     private Timestamp finishDate;
     private String privateIndivdalCode;
+    private String transactionIdFromPaymentSystem;
     private Account accountByUserId;
 
     @Id
@@ -109,6 +110,16 @@ public class AddFunds {
         this.privateIndivdalCode = privateIndivdalCode;
     }
 
+    @Basic
+    @Column(name = "transaction_id_from_payment_system")
+    public String getTransactionIdFromPaymentSystem() {
+        return transactionIdFromPaymentSystem;
+    }
+
+    public void setTransactionIdFromPaymentSystem(String transactionIdFromPaymentSystem) {
+        this.transactionIdFromPaymentSystem = transactionIdFromPaymentSystem;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -139,4 +150,51 @@ public class AddFunds {
     public void setAccountByUserId(Account accountByUserId) {
         this.accountByUserId = accountByUserId;
     }
+
+    public AddFunds() {
+    }
+
+    public AddFunds(double amount, String currency, int paymentMethod, int status, String privateIndivdalCode, String transactionIdFromPaymentSystem, Account accountByUserId, Timestamp date) {
+        this.amount = amount;
+        this.currency = currency;
+        this.paymentMethod = paymentMethod;
+        this.status = status;
+        this.privateIndivdalCode = privateIndivdalCode;
+        this.transactionIdFromPaymentSystem = transactionIdFromPaymentSystem;
+        this.accountByUserId = accountByUserId;
+        this.date = date;
+    }
+
+    public static class AddFundsBySms {
+
+        private String smsCode;
+        private int premiumNumber;
+        private int serviceNumber;
+
+        public String getSmsCode() {
+            return smsCode;
+        }
+
+        public void setSmsCode(String smsCode) {
+            this.smsCode = smsCode;
+        }
+
+        public int getPremiumNumber() {
+            return premiumNumber;
+        }
+
+        public void setPremiumNumber(int premiumNumber) {
+            this.premiumNumber = premiumNumber;
+        }
+
+        public int getServiceNumber() {
+            return serviceNumber;
+        }
+
+        public void setServiceNumber(int serviceNumber) {
+            this.serviceNumber = serviceNumber;
+        }
+    }
 }
+
+
