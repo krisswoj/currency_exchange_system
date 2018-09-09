@@ -92,7 +92,23 @@ public class AccountService {
         return account;
     }
 
-    public Timestamp currentDate(){
+    public Timestamp currentDate() {
         return new java.sql.Timestamp(new java.util.Date().getTime());
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

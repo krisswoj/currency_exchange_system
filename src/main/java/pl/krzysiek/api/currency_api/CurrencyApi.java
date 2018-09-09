@@ -31,27 +31,6 @@ public class CurrencyApi {
         connection.setRequestMethod("GET");
         String jsonString = readStream(connection.getInputStream());
 
-//        Type listType = new TypeToken<ArrayList<Currency>>(){}.getType();
-//        List<Currency> yourClassList = new Gson().fromJson(jsonString, listType);
-
-
-//        Type mapType = new TypeToken<Map<String, Results>>() {}.getType(); // define generic type
-//        Map<String, Results> results = gson.fromJson(testJson, mapType);
-
-//        String json = testJson;
-//
-//        Type aType = new TypeToken<Map<String, ArrayList<Object>>>() {
-//        }.getType();
-//        Map<String, ArrayList<Object>> map = new Gson().fromJson(json, aType);
-//
-//        Type fooType = new TypeToken<Results<Results.CurrencyDetails>>() {
-//        }.getType();
-//        gson.fromJson(testJson, fooType);
-
-//        Type collectionType = new TypeToken<Collection<Results>>(){}.getType();
-//        Collection<Results> ints2 = gson.fromJson(testJson, collectionType);
-
-
         JsonCurrencyResponse jsonCurrencyResponse = gson.fromJson(jsonString, JsonCurrencyResponse.class);
         return new Currency(jsonCurrencyResponse.getResults().getCurrencyRateJson().getCurrencyPair(), jsonCurrencyResponse.getResults().getCurrencyRateJson().getVal(), jsonCurrencyResponse.getResults().getCurrencyRateJson().getFr(), jsonCurrencyResponse.getResults().getCurrencyRateJson().getTo());
     }
@@ -78,49 +57,4 @@ public class CurrencyApi {
         }
         return response.toString();
     }
-
-
-//    private Type getType(final Class<?> rawClass, final Class<?> parameterClass) {
-//        return new ParameterizedType() {
-//            @Override
-//            public Type[] getActualTypeArguments() {
-//                return new Type[]{parameterClass};
-//            }
-//
-//            @Override
-//            public Type getRawType() {
-//                return rawClass;
-//            }
-//
-//            @Override
-//            public Type getOwnerType() {
-//                return null;
-//            }
-//
-//        };
-//
-//    }
-
-//    public class CustomJsonDeserializer<T> implements JsonDeserializer<JsonCurrencyResponse<T>> {
-//
-//        private final Class<T> clazz;
-//
-//        public CustomJsonDeserializer(Class<T> clazz) {
-//            this.clazz = clazz;
-//        }
-//
-//        @Override
-//        public JsonCurrencyResponse<T> deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-//            JsonObject body = json.getAsJsonObject().getAsJsonObject("results");
-//            JsonArray arr = body.entrySet().iterator().next().getValue().getAsJsonArray();
-//            List<T> list = new ArrayList<>();
-//            for(JsonElement element : arr) {
-//                JsonElement innerElement = element.getAsJsonObject().entrySet().iterator().next().getValue();
-//                list.add(context.deserialize(innerElement, clazz));
-//            }
-//            return new JsonCurrencyResponse<T>((T) list);
-//        }
-//    }
-
-
 }

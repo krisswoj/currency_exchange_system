@@ -12,7 +12,11 @@ public class CurrencyTransaction {
     private String currencyTo;
     private double amountOriginalCurrency;
     private double amountBoughtCurrency;
+    private double baseCurrencyRate;
+    private double currencyRateWithFee;
+    private double feeRate;
     private double fee;
+    private int kindOfOperation;
     private int status;
     private Timestamp date;
     private Timestamp lastEditDate;
@@ -69,6 +73,46 @@ public class CurrencyTransaction {
 
     public void setAmountBoughtCurrency(double amountBoughtCurrency) {
         this.amountBoughtCurrency = amountBoughtCurrency;
+    }
+
+    @Basic
+    @Column(name = "base_currency_rate")
+    public double getBaseCurrencyRate() {
+        return baseCurrencyRate;
+    }
+
+    public void setBaseCurrencyRate(double baseCurrencyRate) {
+        this.baseCurrencyRate = baseCurrencyRate;
+    }
+
+    @Basic
+    @Column(name = "currency_rate_with_fee")
+    public double getCurrencyRateWithFee() {
+        return currencyRateWithFee;
+    }
+
+    public void setCurrencyRateWithFee(double currencyRateWithFee) {
+        this.currencyRateWithFee = currencyRateWithFee;
+    }
+
+    @Basic
+    @Column(name = "fee_rate")
+    public double getFeeRate() {
+        return feeRate;
+    }
+
+    public void setFeeRate(double feeRate) {
+        this.feeRate = feeRate;
+    }
+
+    @Basic
+    @Column(name = "kind_of_operation")
+    public int getKindOfOperation() {
+        return kindOfOperation;
+    }
+
+    public void setKindOfOperation(int kindOfOperation) {
+        this.kindOfOperation = kindOfOperation;
     }
 
     @Basic
@@ -162,5 +206,102 @@ public class CurrencyTransaction {
 
     public void setAccountByUserId(Account accountByUserId) {
         this.accountByUserId = accountByUserId;
+    }
+
+
+    public static class CurrencyCalculations{
+
+        private String fromCurrency;
+        private String toCurrency;
+        private Double fromCurrencyAmount;
+        private Double toCurrencyAmount;
+        private Double feeRate;
+        private Double fee;
+        private Double baseCurrencyRate;
+        private Double currencyRateWithFee;
+        private int kindOfOperation;
+
+        public String getFromCurrency() {
+            return fromCurrency;
+        }
+
+        public void setFromCurrency(String fromCurrency) {
+            this.fromCurrency = fromCurrency;
+        }
+
+        public String getToCurrency() {
+            return toCurrency;
+        }
+
+        public void setToCurrency(String toCurrency) {
+            this.toCurrency = toCurrency;
+        }
+
+        public Double getFromCurrencyAmount() {
+            return fromCurrencyAmount;
+        }
+
+        public void setFromCurrencyAmount(Double fromCurrencyAmount) {
+            this.fromCurrencyAmount = fromCurrencyAmount;
+        }
+
+        public Double getToCurrencyAmount() {
+            return toCurrencyAmount;
+        }
+
+        public void setToCurrencyAmount(Double toCurrencyAmount) {
+            this.toCurrencyAmount = toCurrencyAmount;
+        }
+
+        public Double getFeeRate() {
+            return feeRate;
+        }
+
+        public void setFeeRate(Double feeRate) {
+            this.feeRate = feeRate;
+        }
+
+        public Double getFee() {
+            return fee;
+        }
+
+        public void setFee(Double fee) {
+            this.fee = fee;
+        }
+
+        public Double getBaseCurrencyRate() {
+            return baseCurrencyRate;
+        }
+
+        public void setBaseCurrencyRate(Double baseCurrencyRate) {
+            this.baseCurrencyRate = baseCurrencyRate;
+        }
+
+        public Double getCurrencyRateWithFee() {
+            return currencyRateWithFee;
+        }
+
+        public void setCurrencyRateWithFee(Double currencyRateWithFee) {
+            this.currencyRateWithFee = currencyRateWithFee;
+        }
+
+        public int getKindOfOperation() {
+            return kindOfOperation;
+        }
+
+        public void setKindOfOperation(int kindOfOperation) {
+            this.kindOfOperation = kindOfOperation;
+        }
+
+        public CurrencyCalculations(String fromCurrency, String toCurrency, Double feeRate, Double baseCurrencyRate, int kindOfOperation) {
+            this.fromCurrency = fromCurrency;
+            this.toCurrency = toCurrency;
+            this.feeRate = feeRate;
+            this.baseCurrencyRate = baseCurrencyRate;
+            this.kindOfOperation = kindOfOperation;
+        }
+
+        public CurrencyCalculations() {
+        }
     }
 }
