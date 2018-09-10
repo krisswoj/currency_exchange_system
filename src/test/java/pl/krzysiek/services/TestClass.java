@@ -14,9 +14,7 @@ import pl.krzysiek.configuration.SecurityConfiguration;
 import pl.krzysiek.configuration.WebMvcConfig;
 import pl.krzysiek.dao.IAddFundsRepository;
 import pl.krzysiek.dao.ICurrencyRepository;
-import pl.krzysiek.domain.Account;
-import pl.krzysiek.domain.AddFunds;
-import pl.krzysiek.domain.CurrencyTransaction;
+import pl.krzysiek.domain.CurrencyTrans;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {RestConfiguration.class, RestInitializer.class, SecurityConfiguration.class, WebMvcConfig.class})
@@ -79,8 +77,17 @@ public class TestClass {
     @Test
     public void currencyCalcultor() throws IOException {
 
-        CurrencyTransaction.CurrencyCalculations exchangesValuesRates = currencyService.exchangesValuesRates("EUR", null, "PLN", 1000.0, 0.98, 2);
+        CurrencyTrans.Calcs exchangesValuesRates = currencyService.exchangesValuesRates("EUR", 1000.0, "PLN", null, 1.02, 1);
         exchangesValuesRates.getFee();
+
+        CurrencyTrans.Calcs exchangesValuesRates1 = currencyService.exchangesValuesRates("EUR", null, "PLN", 1000.0, 1.02, 1);
+        exchangesValuesRates1.getFee();
+
+        CurrencyTrans.Calcs exchangesValuesRates2 = currencyService.exchangesValuesRates("EUR", 1000.0, "PLN", null, 0.98, 2);
+        exchangesValuesRates2.getFee();
+
+        CurrencyTrans.Calcs exchangesValuesRates3 = currencyService.exchangesValuesRates("EUR", null, "PLN", 1000.0, 0.98, 2);
+        exchangesValuesRates3.getFee();
 
         System.out.println("-----------------------------");
         System.out.println("co wypluje: " +  exchangesValuesRates.getFee());

@@ -53,7 +53,7 @@ public class JsonCurrencyResponse {
 
     public class Results {
 
-        @SerializedName(value = "PLN_EUR", alternate = {"PLN_USD", "PLN_GBP", "PLN_CNY", "EUR_PLN", "USD_PLN", "GBP_PLN", "CNY_PLN"})
+        @SerializedName(value = "EUR_PLN", alternate = {"USD_PLN", "GBP_PLN", "CNY_PLN"})
         private CurrencyRateJson currencyRateJson;
 
         public CurrencyRateJson getCurrencyRateJson() {

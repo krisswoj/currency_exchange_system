@@ -23,7 +23,7 @@ public class Account {
     private double gbpBalance;
     private Collection<AddFunds> addFundsByUserId;
     private Collection<CasinoTransactions> casinoTransactionsByUserId;
-    private Collection<CurrencyTransaction> currencyTransactionsByUserId;
+    private Collection<CurrencyTrans> currencyTransactionsByUserId;
     private Collection<TransferFunds> transferFundsByUserIdFrom;
     private Collection<TransferFunds> transferFundsByUserIdTo;
     private Set<Role> roles;
@@ -188,11 +188,11 @@ public class Account {
     }
 
     @OneToMany(mappedBy = "accountByUserId")
-    public Collection<CurrencyTransaction> getCurrencyTransactionsByUserId() {
+    public Collection<CurrencyTrans> getCurrencyTransactionsByUserId() {
         return currencyTransactionsByUserId;
     }
 
-    public void setCurrencyTransactionsByUserId(Collection<CurrencyTransaction> currencyTransactionsByUserId) {
+    public void setCurrencyTransactionsByUserId(Collection<CurrencyTrans> currencyTransactionsByUserId) {
         this.currencyTransactionsByUserId = currencyTransactionsByUserId;
     }
 

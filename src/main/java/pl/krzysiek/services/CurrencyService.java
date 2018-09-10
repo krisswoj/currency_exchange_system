@@ -6,7 +6,7 @@ import pl.krzysiek.api.currency_api.CurrencyApi;
 import pl.krzysiek.dao.IAccountRepository;
 import pl.krzysiek.dao.ICurrencyRepository;
 import pl.krzysiek.domain.Currency;
-import pl.krzysiek.domain.CurrencyTransaction;
+import pl.krzysiek.domain.CurrencyTrans;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -32,14 +32,14 @@ public class CurrencyService {
         List<Currency> currentRates = new ArrayList<>();
 
         for (Currency currency : this.allCurrenciesFromXml()) {
-            currentRates.add(currencyApi.getActuallyRate(currency.getFromCurrency(), currency.getToCurrency()));
+            currentRates.add(currencyApi.getActuallyRate(currency.getPairName()));
             currencyRepository.save(currentRates.get(currentRates.size() - 1));
         }
         return currentRates;
     }
 
-    public void updateSingleCurrencyPair(String fromCurrency, String toCurrency) throws IOException {
-        currencyRepository.save(currencyApi.getActuallyRate(fromCurrency, toCurrency));
+    public void updateSingleCurrencyPair(String currencyPair) throws IOException {
+        currencyRepository.save(currencyApi.getActuallyRate(currencyPair));
     }
 
     public List<Currency> allCurrenciesFromXml() {
@@ -51,19 +51,8 @@ public class CurrencyService {
         List<ArrayList<String>> xmlData = readerXMLFilesService.readXMLFiles(xmlPath, xmlId);
 
         for (ArrayList<String> position : xmlData) {
-
-            Currency currency = new Currency();
-            currency.setFromCurrency(position.get(0));
-            currency.setToCurrency(position.get(1));
-            currency.setPairName(position.get(0) + "_" + position.get(1));
-
-            Currency currency1 = new Currency();
-            currency1.setFromCurrency(position.get(1));
-            currency1.setToCurrency(position.get(0));
-            currency1.setPairName(position.get(1) + "_" + position.get(0));
-
+            Currency currency = new Currency(position.get(0) + "_" + position.get(1), position.get(0), position.get(1));
             currencyList.add(currency);
-            currencyList.add(currency1);
         }
         return currencyList;
     }
@@ -82,18 +71,27 @@ public class CurrencyService {
     public List<Currency> lastAllCurrencyRates() {
 
         List<Currency> currencyList = new ArrayList<>();
-        for (Currency currency : this.allCurrenciesFromXml()) {
+        for (Currency currency : this.allCurrenciesFromXml())
             currencyList.add(currencyRepository.lastSingleCurrencyPairRates(currency.getPairName()));
-        }
+
         return currencyList;
     }
 
     public Map<String, Currency> currencyMap() {
         Map<String, Currency> currencyMap = new HashMap<>();
-        for (Currency currency : this.lastAllCurrencyRates()) {
+        for (Currency currency : this.lastAllCurrencyRates())
             currencyMap.put(currency.getPairName(), currency);
-        }
+
         return currencyMap;
+    }
+
+    //In current version, for everthing to work correctly - the PLN currency must be the second. Example: EUR_PLN, USD_PLN.
+    public String getCurrencyPair(String fromCurrency, String toCurrency) {
+        if (!fromCurrency.equals("PLN"))
+            return (fromCurrency + "_" + toCurrency);
+        else
+            return (toCurrency + "_" + fromCurrency);
+
     }
 
     public Map<String, Double> userCurrencyBalance() {
@@ -108,19 +106,17 @@ public class CurrencyService {
         return userCurrencyMap;
     }
 
-    public void timeDifferenceForCurrencyPair(String fromCurrency, String toCurrency) throws IOException {
+    public void timeDifferenceForCurrencyPair(String currencyPair) throws IOException {
 
-        long milliseconds = accountService.currentDate().getTime() - currencyRepository.lastSingleCurrencyPairRates(fromCurrency + "_" + toCurrency).getAddDate().getTime();
+        long milliseconds = accountService.currentDate().getTime() - currencyRepository.lastSingleCurrencyPairRates(currencyPair).getAddDate().getTime();
         int seconds = (int) milliseconds / 1000;
-        if (seconds > 900) {
-            this.updateSingleCurrencyPair(fromCurrency, toCurrency);
-            this.updateSingleCurrencyPair(toCurrency, fromCurrency);
-        }
+        if (seconds > 900)
+            this.updateSingleCurrencyPair(currencyPair);
     }
 
     // int kindOfOperation - You have set what you want to do -> Buy (1) currency or sell (2)
-    public CurrencyTransaction exchangeCurrencyTransaction(String fromCurrency, Double currencyValueFrom, String toCurrency, Double currencyValueTo, Double systemFees, int kindOfOperation) throws IOException {
-        CurrencyTransaction currencyTransaction = null;
+    public CurrencyTrans exchangeCurrencyTransaction(String fromCurrency, Double currencyValueFrom, String toCurrency, Double currencyValueTo, Double systemFees, int kindOfOperation) throws IOException {
+        CurrencyTrans currencyTrans = null;
         String currencyPairName = fromCurrency + "_" + toCurrency;
 
         switch (kindOfOperation) {
@@ -133,18 +129,16 @@ public class CurrencyService {
 
                 break;
         }
-
-
-        return currencyTransaction;
+        return currencyTrans;
     }
 
     // int kindOfOperation - You have set what you want to do -> Buy (1) currency or sell (2)
-    public CurrencyTransaction.CurrencyCalculations exchangesValuesRates(String fromCurrency, Double currencyValueFrom, String toCurrency, Double currencyValueTo, Double feeRate, int kindOfOperation) throws IOException {
+    public CurrencyTrans.Calcs exchangesValuesRates(String fromCurrency, Double currencyValueFrom, String toCurrency, Double currencyValueTo, Double feeRate, int kindOfOperation) throws IOException {
 
-        this.timeDifferenceForCurrencyPair(fromCurrency, toCurrency);
-        String currencyPairName = "EUR_PLN";
+        String currencyPair = this.getCurrencyPair(fromCurrency, toCurrency);
+        this.timeDifferenceForCurrencyPair(currencyPair);
 
-        CurrencyTransaction.CurrencyCalculations currencyCalculations = null;
+        CurrencyTrans.Calcs cc = null;
 
         switch (kindOfOperation) {
 
@@ -153,51 +147,55 @@ public class CurrencyService {
                     feeRate += 1.0;
 
                 if (currencyValueFrom != null) {
-                    CurrencyTransaction.CurrencyCalculations currencyCalculations1 = new CurrencyTransaction.CurrencyCalculations(fromCurrency, toCurrency, feeRate, currencyRepository.lastSingleCurrencyPairRates(currencyPairName).getRateValue(), kindOfOperation);
-                    currencyCalculations1.setFromCurrencyAmount(currencyValueFrom);
-                    currencyCalculations1.setToCurrencyAmount(currencyValueFrom / ((currencyRepository.lastSingleCurrencyPairRates(currencyPairName).getRateValue() * feeRate)));
-                    currencyCalculations1.setCurrencyRateWithFee(currencyRepository.lastSingleCurrencyPairRates(currencyPairName).getRateValue() * feeRate);
-                    currencyCalculations1.setFee((currencyValueFrom / ((currencyRepository.lastSingleCurrencyPairRates(currencyPairName).getRateValue()))) - (currencyValueFrom / ((currencyRepository.lastSingleCurrencyPairRates(currencyPairName).getRateValue() * feeRate))));
-
-                    currencyCalculations = currencyCalculations1;
-                    return currencyCalculations;
+                    cc = new CurrencyTrans.Calcs(fromCurrency, toCurrency, currencyValueFrom, currencyDivision(currencyValueFrom, currencyPair, feeRate), feeRate, currencyDivisionFee(currencyValueFrom, currencyPair, feeRate), rateValue(currencyPair), currencyWithFee(currencyPair, feeRate), kindOfOperation);
+                    return cc;
 
                 } else {
-                    CurrencyTransaction.CurrencyCalculations currencyCalculations1 = new CurrencyTransaction.CurrencyCalculations(fromCurrency, toCurrency, feeRate, currencyRepository.lastSingleCurrencyPairRates(currencyPairName).getRateValue(), kindOfOperation);
-                    currencyCalculations1.setToCurrencyAmount(currencyValueTo);
-                    currencyCalculations1.setFromCurrencyAmount(currencyRepository.lastSingleCurrencyPairRates(currencyPairName).getRateValue() * currencyValueTo * feeRate);
-                    currencyCalculations1.setCurrencyRateWithFee(currencyRepository.lastSingleCurrencyPairRates(currencyPairName).getRateValue() * feeRate);
-                    currencyCalculations1.setFee((currencyRepository.lastSingleCurrencyPairRates(currencyPairName).getRateValue() * currencyValueTo * feeRate) - (currencyRepository.lastSingleCurrencyPairRates(currencyPairName).getRateValue() * currencyValueTo));
-
-                    currencyCalculations = currencyCalculations1;
-                    return currencyCalculations;
+                    cc = new CurrencyTrans.Calcs(fromCurrency, toCurrency, currencyMultiplication(currencyValueTo, currencyPair, feeRate), currencyValueTo, feeRate, currencyMultiplicationFee(currencyValueTo, currencyPair, feeRate), rateValue(currencyPair), currencyWithFee(currencyPair, feeRate), kindOfOperation);
+                    return cc;
                 }
-
 
             case 2:
                 if (currencyValueFrom != null) {
-                    CurrencyTransaction.CurrencyCalculations currencyCalculations2 = new CurrencyTransaction.CurrencyCalculations(fromCurrency, toCurrency, feeRate, currencyRepository.lastSingleCurrencyPairRates(currencyPairName).getRateValue(), kindOfOperation);
-                    currencyCalculations2.setFromCurrencyAmount(currencyValueFrom);
-                    currencyCalculations2.setToCurrencyAmount(currencyValueFrom * ((currencyRepository.lastSingleCurrencyPairRates(currencyPairName).getRateValue() * feeRate)));
-                    currencyCalculations2.setCurrencyRateWithFee(currencyRepository.lastSingleCurrencyPairRates(currencyPairName).getRateValue() * feeRate);
-                    currencyCalculations2.setFee((currencyValueFrom * ((currencyRepository.lastSingleCurrencyPairRates(currencyPairName).getRateValue() * feeRate))) - currencyValueFrom * (currencyRepository.lastSingleCurrencyPairRates(currencyPairName).getRateValue()));
-                    currencyCalculations = currencyCalculations2;
-                    return currencyCalculations;
+                    cc = new CurrencyTrans.Calcs(fromCurrency, toCurrency, currencyValueFrom, currencyMultiplication(currencyValueFrom, currencyPair, feeRate),
+                            feeRate, Math.abs(currencyMultiplicationFee(currencyValueFrom, currencyPair, feeRate)),
+                            rateValue(currencyPair), currencyWithFee(currencyPair, feeRate), kindOfOperation);
+                    return cc;
 
                 } else {
-                    CurrencyTransaction.CurrencyCalculations currencyCalculations2 = new CurrencyTransaction.CurrencyCalculations(fromCurrency, toCurrency, feeRate, currencyRepository.lastSingleCurrencyPairRates(currencyPairName).getRateValue(), kindOfOperation);
-                    currencyCalculations2.setToCurrencyAmount(currencyValueTo);
-                    currencyCalculations2.setFromCurrencyAmount(currencyValueTo / (currencyRepository.lastSingleCurrencyPairRates(currencyPairName).getRateValue() * feeRate));
-                    currencyCalculations2.setBaseCurrencyRate(currencyRepository.lastSingleCurrencyPairRates(currencyPairName).getRateValue());
-                    currencyCalculations2.setCurrencyRateWithFee(currencyRepository.lastSingleCurrencyPairRates(currencyPairName).getRateValue() * feeRate);
-                    currencyCalculations2.setFee((currencyValueTo / (currencyRepository.lastSingleCurrencyPairRates(currencyPairName).getRateValue())) - (currencyValueTo / (currencyRepository.lastSingleCurrencyPairRates(currencyPairName).getRateValue() * feeRate)));
-                    currencyCalculations = currencyCalculations2;
-                    return currencyCalculations;
+
+                    cc = new CurrencyTrans.Calcs(fromCurrency, toCurrency, currencyDivision(currencyValueTo, currencyPair, feeRate), currencyValueTo,
+                            feeRate, Math.abs(currencyDivisionFee(currencyValueTo, currencyPair, feeRate)),
+                            rateValue(currencyPair), currencyWithFee(currencyPair, feeRate), kindOfOperation);
+                    return cc;
                 }
         }
-      return currencyCalculations;
+        return cc;
     }
 
+    private Double rateValue(String currencyPair) {
+        return currencyRepository.lastSingleCurrencyPairRates(currencyPair).getRateValue();
+    }
+
+    private Double currencyDivision(Double currencyValue, String currencyPair, Double feeRate) {
+        return (currencyValue / rateValue(currencyPair) * feeRate);
+    }
+
+    private Double currencyMultiplication(Double currencyValue, String currencyPair, Double feeRate) {
+        return (currencyValue * rateValue(currencyPair) * feeRate);
+    }
+
+    private Double currencyWithFee(String currencyPair, Double feeRate) {
+        return (rateValue(currencyPair) * feeRate);
+    }
+
+    private Double currencyDivisionFee(Double currencyValue, String currencyPair, Double feeRate) {
+        return ((currencyValue / (rateValue(currencyPair))) - (currencyValue / (rateValue(currencyPair) * feeRate)));
+    }
+
+    private Double currencyMultiplicationFee(Double currencyValue, String currencyPair, Double feeRate) {
+        return ((currencyValue * (rateValue(currencyPair) * feeRate))) - currencyValue * rateValue(currencyPair);
+    }
 }
 
 

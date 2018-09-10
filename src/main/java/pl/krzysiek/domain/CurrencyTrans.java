@@ -6,7 +6,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "currency_transaction", schema = "cantor", catalog = "")
-public class CurrencyTransaction {
+public class CurrencyTrans {
     private int id;
     private String currencyFrom;
     private String currencyTo;
@@ -179,7 +179,7 @@ public class CurrencyTransaction {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        CurrencyTransaction that = (CurrencyTransaction) o;
+        CurrencyTrans that = (CurrencyTrans) o;
         return id == that.id &&
                 Double.compare(that.amountOriginalCurrency, amountOriginalCurrency) == 0 &&
                 Double.compare(that.amountBoughtCurrency, amountBoughtCurrency) == 0 &&
@@ -209,7 +209,7 @@ public class CurrencyTransaction {
     }
 
 
-    public static class CurrencyCalculations{
+    public static class Calcs {
 
         private String fromCurrency;
         private String toCurrency;
@@ -293,7 +293,7 @@ public class CurrencyTransaction {
             this.kindOfOperation = kindOfOperation;
         }
 
-        public CurrencyCalculations(String fromCurrency, String toCurrency, Double feeRate, Double baseCurrencyRate, int kindOfOperation) {
+        public Calcs(String fromCurrency, String toCurrency, Double feeRate, Double baseCurrencyRate, int kindOfOperation) {
             this.fromCurrency = fromCurrency;
             this.toCurrency = toCurrency;
             this.feeRate = feeRate;
@@ -301,7 +301,19 @@ public class CurrencyTransaction {
             this.kindOfOperation = kindOfOperation;
         }
 
-        public CurrencyCalculations() {
+        public Calcs(String fromCurrency, String toCurrency, Double fromCurrencyAmount, Double toCurrencyAmount, Double feeRate, Double fee, Double baseCurrencyRate, Double currencyRateWithFee, int kindOfOperation) {
+            this.fromCurrency = fromCurrency;
+            this.toCurrency = toCurrency;
+            this.fromCurrencyAmount = fromCurrencyAmount;
+            this.toCurrencyAmount = toCurrencyAmount;
+            this.feeRate = feeRate;
+            this.fee = fee;
+            this.baseCurrencyRate = baseCurrencyRate;
+            this.currencyRateWithFee = currencyRateWithFee;
+            this.kindOfOperation = kindOfOperation;
+        }
+
+        public Calcs() {
         }
     }
 }

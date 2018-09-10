@@ -24,15 +24,18 @@ public class CurrencyApi {
 
     }
 
-    public Currency getActuallyRate(String currencyFrom, String currencyTo) throws IOException {
+    public Currency getActuallyRate(String currencyPair) throws IOException {
 
-        HttpURLConnection connection = (HttpURLConnection) new URL("https://free.currencyconverterapi.com/api/v6/convert?q=" + currencyFrom + "_" + currencyTo).openConnection();
+        HttpURLConnection connection = (HttpURLConnection) new URL("https://free.currencyconverterapi.com/api/v6/convert?q=" + currencyPair).openConnection();
         connection.setRequestProperty("Content-Type", "application/json");
         connection.setRequestMethod("GET");
         String jsonString = readStream(connection.getInputStream());
 
         JsonCurrencyResponse jsonCurrencyResponse = gson.fromJson(jsonString, JsonCurrencyResponse.class);
-        return new Currency(jsonCurrencyResponse.getResults().getCurrencyRateJson().getCurrencyPair(), jsonCurrencyResponse.getResults().getCurrencyRateJson().getVal(), jsonCurrencyResponse.getResults().getCurrencyRateJson().getFr(), jsonCurrencyResponse.getResults().getCurrencyRateJson().getTo());
+        return new Currency(jsonCurrencyResponse.getResults().getCurrencyRateJson().getCurrencyPair(),
+                jsonCurrencyResponse.getResults().getCurrencyRateJson().getVal(),
+                jsonCurrencyResponse.getResults().getCurrencyRateJson().getFr(),
+                jsonCurrencyResponse.getResults().getCurrencyRateJson().getTo());
     }
 
     private String readStream(InputStream in) {

@@ -31,11 +31,11 @@ public class CantorRestApi {
         return String.valueOf(simpayApi.getStatus(995, 92555, code));
     }
 
-    @RequestMapping(value = "/currency/{from}/{to}", method = RequestMethod.GET)
-    public Currency currency(@PathVariable("from") String from, @PathVariable("to") String to) throws IOException {
-        Currency currency = new CurrencyApi().getActuallyRate(from, to);
-        return currencyRepository.save(currency);
-    }
+//    @RequestMapping(value = "/currency/{from}/{to}", method = RequestMethod.GET)
+//    public Currency currency(@PathVariable("from") String from, @PathVariable("to") String to) throws IOException {
+//        Currency currency = new CurrencyApi().getActuallyRate(from, to);
+//        return currencyRepository.save(currency);
+//    }
 
     @RequestMapping(value = "/all-xml", method = RequestMethod.GET)
     public List<Currency> getAllFromXml() {
