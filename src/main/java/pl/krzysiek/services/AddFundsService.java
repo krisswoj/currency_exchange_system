@@ -18,16 +18,16 @@ import java.util.Map;
 public class AddFundsService {
 
     @Autowired
-    AccountService accountService;
+    private AccountService accountService;
 
     @Autowired
-    ICurrencyRepository currencyRepository;
+    private ICurrencyRepository currencyRepository;
 
     @Autowired
-    IAddFundsRepository addFundsRepository;
+    private IAddFundsRepository addFundsRepository;
 
     @Autowired
-    IAccountRepository accountRepository;
+    private IAccountRepository accountRepository;
 
 
     public AddFunds smsVerifyPayment(AddFunds.AddFundsBySms addFundsBySms) throws IOException {

@@ -11,6 +11,7 @@ public class TransferFunds {
     private double amount;
     private String currency;
     private double fee;
+    private double amountAfterFees;
     private int status;
     private Timestamp date;
     private Timestamp lastEditDate;
@@ -101,6 +102,12 @@ public class TransferFunds {
     }
 
     @Basic
+    @Column(name = "amount_after_fees")
+    public double getAmountAfterFees() { return amountAfterFees; }
+
+    public void setAmountAfterFees(double amountAfterFees) { this.amountAfterFees = amountAfterFees; }
+
+    @Basic
     @Column(name = "private_indivdal_code")
     public String getPrivateIndivdalCode() {
         return privateIndivdalCode;
@@ -129,6 +136,21 @@ public class TransferFunds {
     @Override
     public int hashCode() {
         return Objects.hash(id, amount, currency, fee, status, date, lastEditDate, finishDate, privateIndivdalCode);
+    }
+
+    public TransferFunds(double amount, String currency, double fee, double amountAfterFees, int status, Timestamp date, String privateIndivdalCode, Account accountByUserIdFrom, Account accountByUserIdTo) {
+        this.amount = amount;
+        this.currency = currency;
+        this.fee = fee;
+        this.amountAfterFees = amountAfterFees;
+        this.status = status;
+        this.date = date;
+        this.privateIndivdalCode = privateIndivdalCode;
+        this.accountByUserIdFrom = accountByUserIdFrom;
+        this.accountByUserIdTo = accountByUserIdTo;
+    }
+
+    public TransferFunds() {
     }
 
     @ManyToOne

@@ -17,19 +17,19 @@ import java.util.*;
 public class CurrencyService {
 
     @Autowired
-    ReaderXMLFilesService readerXMLFilesService;
+    private ReaderXMLFilesService readerXMLFilesService;
     @Autowired
-    ICurrencyRepository currencyRepository;
+    private ICurrencyRepository currencyRepository;
     @Autowired
-    CurrencyApi currencyApi;
+    private CurrencyApi currencyApi;
     @Autowired
-    AccountService accountService;
+    private AccountService accountService;
     @Autowired
-    IAccountRepository accountRepository;
+    private IAccountRepository accountRepository;
     @Autowired
-    AddFundsService addFundsService;
+    private AddFundsService addFundsService;
     @Autowired
-    ICurrencyTransRepository currencyTransRepository;
+    private ICurrencyTransRepository currencyTransRepository;
 
     public List<Currency> updateRateAllCurrency() throws IOException {
         List<Currency> currentRates = new ArrayList<>();

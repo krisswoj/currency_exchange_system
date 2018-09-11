@@ -13,10 +13,13 @@ import pl.krzysiek.configuration.RestConfiguration;
 import pl.krzysiek.configuration.RestInitializer;
 import pl.krzysiek.configuration.SecurityConfiguration;
 import pl.krzysiek.configuration.WebMvcConfig;
+import pl.krzysiek.dao.IAccountRepository;
 import pl.krzysiek.dao.IAddFundsRepository;
 import pl.krzysiek.dao.ICurrencyRepository;
 import pl.krzysiek.dao.ICurrencyTransRepository;
+import pl.krzysiek.domain.Account;
 import pl.krzysiek.domain.CurrencyTrans;
+import pl.krzysiek.domain.TransferFunds;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {RestConfiguration.class, RestInitializer.class, SecurityConfiguration.class, WebMvcConfig.class})
@@ -26,22 +29,28 @@ import pl.krzysiek.domain.CurrencyTrans;
 public class TestClass {
 
     @Autowired
-    AddFundsService addFundsService;
+    private AddFundsService addFundsService;
 
     @Autowired
-    IAddFundsRepository addFundsRepository;
+    private IAddFundsRepository addFundsRepository;
 
     @Autowired
-    AccountService accountService;
+    private AccountService accountService;
 
     @Autowired
-    CurrencyService currencyService;
+    private CurrencyService currencyService;
 
     @Autowired
-    ICurrencyRepository currencyRepository;
+    private ICurrencyRepository currencyRepository;
 
     @Autowired
-    ICurrencyTransRepository currencyTransRepository;
+    private ICurrencyTransRepository currencyTransRepository;
+
+    @Autowired
+    private IAccountRepository accountRepository;
+
+    @Autowired
+    private TransferFundsService transferFundsService;
 
 //    @Test
 //    public void testFunction() throws IOException {
@@ -115,6 +124,17 @@ public class TestClass {
         test2.setCurrencyFrom("PLN");
 
         CurrencyTrans tes3 = currencyTransRepository.save(test2);
+
+    }
+
+    @Test
+    public void TransferFundss(){
+
+        Account accountFrom = accountRepository.findByEmail("krisswoj@gmail.com");
+        Account accountTo = accountRepository.findByEmail("karol@wp.pl");
+
+        TransferFunds transferFunds = transferFundsService.transferFunds(accountFrom, accountTo, "PLN", 100000.0, 0.10);
+
 
     }
 
