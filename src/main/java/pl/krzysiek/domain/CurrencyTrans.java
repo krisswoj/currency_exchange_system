@@ -208,6 +208,24 @@ public class CurrencyTrans {
         this.accountByUserId = accountByUserId;
     }
 
+    public CurrencyTrans(String currencyFrom, String currencyTo, double amountOriginalCurrency, double amountBoughtCurrency, double baseCurrencyRate, double currencyRateWithFee, double feeRate, double fee, int kindOfOperation, int status, Timestamp date, String privateIndivdalCode, Account accountByUserId) {
+        this.currencyFrom = currencyFrom;
+        this.currencyTo = currencyTo;
+        this.amountOriginalCurrency = amountOriginalCurrency;
+        this.amountBoughtCurrency = amountBoughtCurrency;
+        this.baseCurrencyRate = baseCurrencyRate;
+        this.currencyRateWithFee = currencyRateWithFee;
+        this.feeRate = feeRate;
+        this.fee = fee;
+        this.kindOfOperation = kindOfOperation;
+        this.status = status;
+        this.date = date;
+        this.privateIndivdalCode = privateIndivdalCode;
+        this.accountByUserId = accountByUserId;
+    }
+
+    public CurrencyTrans() {
+    }
 
     public static class Calcs {
 
@@ -217,6 +235,7 @@ public class CurrencyTrans {
         private Double toCurrencyAmount;
         private Double feeRate;
         private Double fee;
+        private String currencyPair;
         private Double baseCurrencyRate;
         private Double currencyRateWithFee;
         private int kindOfOperation;
@@ -269,6 +288,10 @@ public class CurrencyTrans {
             this.fee = fee;
         }
 
+        public String getCurrencyPair() { return currencyPair; }
+
+        public void setCurrencyPair(String currencyPair) { this.currencyPair = currencyPair; }
+
         public Double getBaseCurrencyRate() {
             return baseCurrencyRate;
         }
@@ -281,9 +304,7 @@ public class CurrencyTrans {
             return currencyRateWithFee;
         }
 
-        public void setCurrencyRateWithFee(Double currencyRateWithFee) {
-            this.currencyRateWithFee = currencyRateWithFee;
-        }
+        public void setCurrencyRateWithFee(Double currencyRateWithFee) { this.currencyRateWithFee = currencyRateWithFee; }
 
         public int getKindOfOperation() {
             return kindOfOperation;

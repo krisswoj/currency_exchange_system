@@ -49,7 +49,7 @@ public class AddFundsService {
             }
     }
 
-    private String generateUniqId() {
+    public String generateUniqId() {
 
         String uniqID = this.uniqString(8);
         if (addFundsRepository.existsByPrivateIndivdalCode(this.uniqString(8))) {

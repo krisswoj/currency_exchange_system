@@ -3,6 +3,7 @@ package pl.krzysiek.services;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
 
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import pl.krzysiek.configuration.SecurityConfiguration;
 import pl.krzysiek.configuration.WebMvcConfig;
 import pl.krzysiek.dao.IAddFundsRepository;
 import pl.krzysiek.dao.ICurrencyRepository;
+import pl.krzysiek.dao.ICurrencyTransRepository;
 import pl.krzysiek.domain.CurrencyTrans;
 
 @RunWith(SpringRunner.class)
@@ -37,6 +39,9 @@ public class TestClass {
 
     @Autowired
     ICurrencyRepository currencyRepository;
+
+    @Autowired
+    ICurrencyTransRepository currencyTransRepository;
 
 //    @Test
 //    public void testFunction() throws IOException {
@@ -77,24 +82,44 @@ public class TestClass {
     @Test
     public void currencyCalcultor() throws IOException {
 
-        CurrencyTrans.Calcs exchangesValuesRates = currencyService.exchangesValuesRates("EUR", 1000.0, "PLN", null, 1.02, 1);
-        exchangesValuesRates.getFee();
 
-        CurrencyTrans.Calcs exchangesValuesRates1 = currencyService.exchangesValuesRates("EUR", null, "PLN", 1000.0, 1.02, 1);
-        exchangesValuesRates1.getFee();
+        CurrencyTrans.Calcs exchangesValuesRates2 = currencyService.exchangesValuesRates("PLN", 100.0, "EUR", null, 1.02, 1);
+        CurrencyTrans viewwidok2 = currencyService.exchangeCurrencyTransaction(exchangesValuesRates2);
 
-        CurrencyTrans.Calcs exchangesValuesRates2 = currencyService.exchangesValuesRates("EUR", 1000.0, "PLN", null, 0.98, 2);
-        exchangesValuesRates2.getFee();
 
-        CurrencyTrans.Calcs exchangesValuesRates3 = currencyService.exchangesValuesRates("EUR", null, "PLN", 1000.0, 0.98, 2);
-        exchangesValuesRates3.getFee();
+        CurrencyTrans.Calcs exchangesValuesRates = currencyService.exchangesValuesRates("EUR", null, "PLN", 1000.0, 0.98, 2);
+        CurrencyTrans viewwidok = currencyService.exchangeCurrencyTransaction(exchangesValuesRates);
 
-        System.out.println("-----------------------------");
-        System.out.println("co wypluje: " +  exchangesValuesRates.getFee());
-        System.out.println("-----------------------------");
+//        currencyTransRepository.save(viewwidok);
+
+//        CurrencyTrans.Calcs exchangesValuesRates1 = currencyService.exchangesValuesRates("PLN", null, "EUR", 1000.0, 1.02, 1);
+//        exchangesValuesRates1.getFee();
+//
+//        CurrencyTrans.Calcs exchangesValuesRates2 = currencyService.exchangesValuesRates("EUR", 1000.0, "PLN", null, 0.98, 2);
+//        exchangesValuesRates2.getFee();
+//
+//        CurrencyTrans.Calcs exchangesValuesRates3 = currencyService.exchangesValuesRates("EUR", null, "PLN", 1000.0, 0.98, 2);
+//        exchangesValuesRates3.getFee();
+//
+//        System.out.println("-----------------------------");
+//        System.out.println("co wypluje: " +  exchangesValuesRates.getFee());
+//        System.out.println("-----------------------------");
 
     }
+
+    @Test
+    public void saveTestCurrency(){
+
+        CurrencyTrans test2 = new CurrencyTrans();
+        test2.setAmountBoughtCurrency(22.2);
+        test2.setCurrencyFrom("PLN");
+
+        CurrencyTrans tes3 = currencyTransRepository.save(test2);
+
+    }
+
 }
+
 
 
 

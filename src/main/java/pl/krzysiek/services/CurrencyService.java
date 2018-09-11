@@ -5,14 +5,13 @@ import org.springframework.stereotype.Service;
 import pl.krzysiek.api.currency_api.CurrencyApi;
 import pl.krzysiek.dao.IAccountRepository;
 import pl.krzysiek.dao.ICurrencyRepository;
+import pl.krzysiek.dao.ICurrencyTransRepository;
+import pl.krzysiek.domain.Account;
 import pl.krzysiek.domain.Currency;
 import pl.krzysiek.domain.CurrencyTrans;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class CurrencyService {
@@ -27,6 +26,10 @@ public class CurrencyService {
     AccountService accountService;
     @Autowired
     IAccountRepository accountRepository;
+    @Autowired
+    AddFundsService addFundsService;
+    @Autowired
+    ICurrencyTransRepository currencyTransRepository;
 
     public List<Currency> updateRateAllCurrency() throws IOException {
         List<Currency> currentRates = new ArrayList<>();
@@ -115,19 +118,40 @@ public class CurrencyService {
     }
 
     // int kindOfOperation - You have set what you want to do -> Buy (1) currency or sell (2)
-    public CurrencyTrans exchangeCurrencyTransaction(String fromCurrency, Double currencyValueFrom, String toCurrency, Double currencyValueTo, Double systemFees, int kindOfOperation) throws IOException {
+    public CurrencyTrans exchangeCurrencyTransaction(CurrencyTrans.Calcs calcs){
         CurrencyTrans currencyTrans = null;
-        String currencyPairName = fromCurrency + "_" + toCurrency;
 
-        switch (kindOfOperation) {
+        Account account = accountService.loggedUser();
+
+        switch (calcs.getKindOfOperation()) {
             case 1:
+                if (account.getPlnBalance() >= calcs.getFromCurrencyAmount()) {
+                    account.setPlnBalance(account.getPlnBalance() - calcs.getFromCurrencyAmount());
+                    account.setEurBalance(account.getEurBalance() + calcs.getToCurrencyAmount());
+                    accountRepository.save(account);
 
+                    currencyTrans = new CurrencyTrans(calcs.getFromCurrency(), calcs.getToCurrency(), calcs.getFromCurrencyAmount(), calcs.getToCurrencyAmount(), calcs.getBaseCurrencyRate(), calcs.getCurrencyRateWithFee(), calcs.getFeeRate(), calcs.getFee(), calcs.getKindOfOperation(), 1, accountService.currentDate(), addFundsService.generateUniqId(), accountService.loggedUser());
 
-                break;
+                    return currencyTransRepository.save(currencyTrans);
+
+                } else {
+                    throw new IllegalStateException("Brak wystarczajacych srodkow na koncie");
+                }
+
             case 2:
+                if (account.getEurBalance() >= calcs.getFromCurrencyAmount()) {
+                    account.setEurBalance(account.getEurBalance() - calcs.getFromCurrencyAmount());
+                    account.setPlnBalance(account.getPlnBalance() + calcs.getToCurrencyAmount());
+                    accountRepository.save(account);
 
+                    currencyTrans = new CurrencyTrans(calcs.getFromCurrency(), calcs.getToCurrency(), calcs.getFromCurrencyAmount(), calcs.getToCurrencyAmount(), calcs.getBaseCurrencyRate(), calcs.getCurrencyRateWithFee(), calcs.getFeeRate(), calcs.getFee(), calcs.getKindOfOperation(), 1, accountService.currentDate(), addFundsService.generateUniqId(), accountService.loggedUser());
 
-                break;
+                    return currencyTransRepository.save(currencyTrans);
+
+                } else {
+                    throw new IllegalStateException("Brak wystarczajacych srodkow na koncie");
+                }
+
         }
         return currencyTrans;
     }
@@ -146,12 +170,17 @@ public class CurrencyService {
                 if (feeRate < 1)
                     feeRate += 1.0;
 
+
                 if (currencyValueFrom != null) {
-                    cc = new CurrencyTrans.Calcs(fromCurrency, toCurrency, currencyValueFrom, currencyDivision(currencyValueFrom, currencyPair, feeRate), feeRate, currencyDivisionFee(currencyValueFrom, currencyPair, feeRate), rateValue(currencyPair), currencyWithFee(currencyPair, feeRate), kindOfOperation);
+                    cc = new CurrencyTrans.Calcs(fromCurrency, toCurrency, currencyValueFrom, currencyDivision(currencyValueFrom, currencyPair, feeRate),
+                            feeRate, currencyDivisionFee(currencyValueFrom, currencyPair, feeRate),
+                            rateValue(currencyPair), currencyWithFee(currencyPair, feeRate), kindOfOperation);
                     return cc;
 
                 } else {
-                    cc = new CurrencyTrans.Calcs(fromCurrency, toCurrency, currencyMultiplication(currencyValueTo, currencyPair, feeRate), currencyValueTo, feeRate, currencyMultiplicationFee(currencyValueTo, currencyPair, feeRate), rateValue(currencyPair), currencyWithFee(currencyPair, feeRate), kindOfOperation);
+                    cc = new CurrencyTrans.Calcs(fromCurrency, toCurrency, currencyMultiplication(currencyValueTo, currencyPair, feeRate), currencyValueTo,
+                            feeRate, currencyMultiplicationFee(currencyValueTo, currencyPair, feeRate),
+                            rateValue(currencyPair), currencyWithFee(currencyPair, feeRate), kindOfOperation);
                     return cc;
                 }
 
@@ -178,7 +207,7 @@ public class CurrencyService {
     }
 
     private Double currencyDivision(Double currencyValue, String currencyPair, Double feeRate) {
-        return (currencyValue / rateValue(currencyPair) * feeRate);
+        return (currencyValue / (rateValue(currencyPair) * feeRate));
     }
 
     private Double currencyMultiplication(Double currencyValue, String currencyPair, Double feeRate) {
@@ -188,6 +217,7 @@ public class CurrencyService {
     private Double currencyWithFee(String currencyPair, Double feeRate) {
         return (rateValue(currencyPair) * feeRate);
     }
+
 
     private Double currencyDivisionFee(Double currencyValue, String currencyPair, Double feeRate) {
         return ((currencyValue / (rateValue(currencyPair))) - (currencyValue / (rateValue(currencyPair) * feeRate)));
