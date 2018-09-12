@@ -44,7 +44,6 @@ public class CasinoService {
     public int generateRandomNumber() {
         Random random = new Random();
         return random.nextInt(10 + 1);
-//        return 1;
     }
 
     private CasinoTransactions betVerify(CasinoTransactions casinoTransactions, CasinoGameTransactionDetails casinoGameTransactionDetails) {
@@ -109,7 +108,7 @@ public class CasinoService {
         accountRepository.save(account);
     }
 
-    private CasinoTransactions creditWonMoney(CasinoTransactions casinoTransactions, Account account, int prizeMultiplied){
+    private CasinoTransactions creditWonMoney(CasinoTransactions casinoTransactions, Account account, int prizeMultiplied) {
         account.setPlnBalance(account.getPlnBalance() + (casinoTransactions.getAmount() * prizeMultiplied));
         accountRepository.save(account);
         casinoTransactions.setWonAmount(casinoTransactions.getAmount() * prizeMultiplied);

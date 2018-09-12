@@ -31,15 +31,6 @@ public class CurrencyService {
     @Autowired
     private ICurrencyTransRepository currencyTransRepository;
 
-    public List<Currency> updateRateAllCurrency() throws IOException {
-        List<Currency> currentRates = new ArrayList<>();
-
-        for (Currency currency : this.allCurrenciesFromXml()) {
-            currentRates.add(currencyApi.getActuallyRate(currency.getPairName()));
-            currencyRepository.save(currentRates.get(currentRates.size() - 1));
-        }
-        return currentRates;
-    }
 
     public void updateSingleCurrencyPair(String currencyPair) throws IOException {
         currencyRepository.save(currencyApi.getActuallyRate(currencyPair));
@@ -47,8 +38,8 @@ public class CurrencyService {
 
     public List<Currency> allCurrenciesFromXml() {
 
-        String xmlPath = "xml_files/currency_list.xml";
-        String xmlId = "currency";
+        final String xmlPath  = "xml_files/currency_list.xml";
+        final String xmlId = "currency";
 
         List<Currency> currencyList = new ArrayList<>();
         List<ArrayList<String>> xmlData = readerXMLFilesService.readXMLFiles(xmlPath, xmlId);
@@ -78,6 +69,16 @@ public class CurrencyService {
             currencyList.add(currencyRepository.lastSingleCurrencyPairRates(currency.getPairName()));
 
         return currencyList;
+    }
+
+    public List<Currency> updateRateAllCurrency() throws IOException {
+        List<Currency> currentRates = new ArrayList<>();
+
+        for (Currency currency : this.allCurrenciesFromXml()) {
+            currentRates.add(currencyApi.getActuallyRate(currency.getPairName()));
+            currencyRepository.save(currentRates.get(currentRates.size() - 1));
+        }
+        return currentRates;
     }
 
     public Map<String, Currency> currencyMap() {

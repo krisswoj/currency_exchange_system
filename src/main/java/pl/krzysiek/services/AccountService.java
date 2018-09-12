@@ -88,9 +88,9 @@ public class AccountService {
 
     public Account loggedUser() {
 
-//        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//        Account account = accountRepository.findByEmail(userDetails.getUsername());
-        Account account = accountRepository.findByEmail("krisswoj@gmail.com");
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Account account = accountRepository.findByEmail(userDetails.getUsername());
+//        Account account = accountRepository.findByEmail("krisswoj@gmail.com");
 
 //        Account account = new Account();
 //        account.setUserId(7);

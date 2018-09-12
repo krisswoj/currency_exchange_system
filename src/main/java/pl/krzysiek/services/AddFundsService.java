@@ -21,9 +21,6 @@ public class AddFundsService {
     private AccountService accountService;
 
     @Autowired
-    private ICurrencyRepository currencyRepository;
-
-    @Autowired
     private IAddFundsRepository addFundsRepository;
 
     @Autowired
@@ -50,14 +47,8 @@ public class AddFundsService {
     }
 
     public String generateUniqId() {
-
         String uniqID = this.uniqString(8);
-        if (addFundsRepository.existsByPrivateIndivdalCode(this.uniqString(8))) {
-            this.generateUniqId();
-        } else {
-            return uniqID;
-        }
-        return uniqID;
+        return (addFundsRepository.existsByPrivateIndivdalCode(this.uniqString(8))) ? this.generateUniqId() : uniqID;
     }
 
     private String uniqString(int count) {
