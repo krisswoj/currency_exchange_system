@@ -10,7 +10,8 @@ public class CasinoTransactions {
     private int id;
     private double amount;
     private String currency;
-    private int resultForUser;
+    private int kindOfBet;
+    private int userNumber;
     private double wonAmount;
     private int status;
     private Timestamp date;
@@ -52,14 +53,20 @@ public class CasinoTransactions {
     }
 
     @Basic
-    @Column(name = "result_for_user")
-    public int getResultForUser() {
-        return resultForUser;
+    @Column(name = "kind_of_bet")
+    public int getKindOfBet() {
+        return kindOfBet;
     }
 
-    public void setResultForUser(int resultForUser) {
-        this.resultForUser = resultForUser;
+    public void setKindOfBet(int kindOfBet) {
+        this.kindOfBet = kindOfBet;
     }
+
+    @Basic
+    @Column(name = "user_number")
+    public int getUserNumber() { return userNumber; }
+
+    public void setUserNumber(int userNumber) { this.userNumber = userNumber; }
 
     @Basic
     @Column(name = "won_amount")
@@ -128,7 +135,7 @@ public class CasinoTransactions {
         CasinoTransactions that = (CasinoTransactions) o;
         return id == that.id &&
                 Double.compare(that.amount, amount) == 0 &&
-                resultForUser == that.resultForUser &&
+                kindOfBet == that.kindOfBet &&
                 Double.compare(that.wonAmount, wonAmount) == 0 &&
                 status == that.status &&
                 Objects.equals(currency, that.currency) &&
@@ -140,7 +147,7 @@ public class CasinoTransactions {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, amount, currency, resultForUser, wonAmount, status, date, lastEditDate, finishDate, privateIndivdalCode);
+        return Objects.hash(id, amount, currency, kindOfBet, wonAmount, status, date, lastEditDate, finishDate, privateIndivdalCode);
     }
 
     @ManyToOne
@@ -161,5 +168,18 @@ public class CasinoTransactions {
 
     public void setCasinoGameTransactionDetailsByGameSpinId(CasinoGameTransactionDetails casinoGameTransactionDetailsByGameSpinId) {
         this.casinoGameTransactionDetailsByGameSpinId = casinoGameTransactionDetailsByGameSpinId;
+    }
+
+    public CasinoTransactions(double amount, String currency, int userNumber, int kindOfBet, int status, Timestamp date, Account accountByUserId) {
+        this.amount = amount;
+        this.currency = currency;
+        this.userNumber = userNumber;
+        this.kindOfBet = kindOfBet;
+        this.status = status;
+        this.date = date;
+        this.accountByUserId = accountByUserId;
+    }
+
+    public CasinoTransactions() {
     }
 }

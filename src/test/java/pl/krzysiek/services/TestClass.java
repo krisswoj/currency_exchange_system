@@ -4,6 +4,8 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,7 @@ import pl.krzysiek.dao.IAddFundsRepository;
 import pl.krzysiek.dao.ICurrencyRepository;
 import pl.krzysiek.dao.ICurrencyTransRepository;
 import pl.krzysiek.domain.Account;
+import pl.krzysiek.domain.CasinoTransactions;
 import pl.krzysiek.domain.CurrencyTrans;
 import pl.krzysiek.domain.TransferFunds;
 
@@ -51,6 +54,9 @@ public class TestClass {
 
     @Autowired
     private TransferFundsService transferFundsService;
+
+    @Autowired
+    private CasinoService casinoService;
 
 //    @Test
 //    public void testFunction() throws IOException {
@@ -134,8 +140,46 @@ public class TestClass {
         Account accountTo = accountRepository.findByEmail("karol@wp.pl");
 
         TransferFunds transferFunds = transferFundsService.transferFunds(accountFrom, accountTo, "PLN", 100000.0, 0.10);
+    }
 
 
+//    @Test
+//    public void randomNumber(){
+//        System.out.println("-----------------------------");
+//        System.out.println("co wypluje: " +  casinoService.generateRandomNumber());
+//        System.out.println("-----------------------------");
+//    }
+
+
+    @Test
+    public void testGame(){
+        Account account = accountRepository.findByEmail("krisswoj@gmail.com");
+
+
+        for(int i = 0; i < 10000; i++) {
+
+
+            List<CasinoTransactions> casinoTransactionsList = new ArrayList<>();
+
+            casinoTransactionsList.add(new CasinoTransactions(50.0, "PLN", casinoService.generateRandomNumber(), 3, 0, accountService.currentDate(), account));
+
+//        casinoTransactionsList.add(new CasinoTransactions(50.0, "PLN", 2, 1, 0, accountService.currentDate(), account));
+//        casinoTransactionsList.add(new CasinoTransactions(50.0, "PLN", 1, 2, 0, accountService.currentDate(), account));
+//        casinoTransactionsList.add(new CasinoTransactions(50.0, "PLN", 2, 2, 0, accountService.currentDate(), account));
+//        casinoTransactionsList.add(new CasinoTransactions(50.0, "PLN", 0, 3, 0, accountService.currentDate(), account));
+//        casinoTransactionsList.add(new CasinoTransactions(50.0, "PLN", 1, 3, 0, accountService.currentDate(), account));
+//        casinoTransactionsList.add(new CasinoTransactions(50.0, "PLN", 2, 3, 0, accountService.currentDate(), account));
+//        casinoTransactionsList.add(new CasinoTransactions(50.0, "PLN", 3, 3, 0, accountService.currentDate(), account));
+//        casinoTransactionsList.add(new CasinoTransactions(50.0, "PLN", 4, 3, 0, accountService.currentDate(), account));
+//        casinoTransactionsList.add(new CasinoTransactions(50.0, "PLN", 5, 3, 0, accountService.currentDate(), account));
+//        casinoTransactionsList.add(new CasinoTransactions(50.0, "PLN", 6, 3, 0, accountService.currentDate(), account));
+//        casinoTransactionsList.add(new CasinoTransactions(50.0, "PLN", 7, 3, 0, accountService.currentDate(), account));
+//        casinoTransactionsList.add(new CasinoTransactions(50.0, "PLN", 8, 3, 0, accountService.currentDate(), account));
+//        casinoTransactionsList.add(new CasinoTransactions(50.0, "PLN", 9, 3, 0, accountService.currentDate(), account));
+//        casinoTransactionsList.add(new CasinoTransactions(50.0, "PLN", 10, 3, 0, accountService.currentDate(), account));
+
+            casinoService.newGame(casinoTransactionsList);
+        }
     }
 
 }

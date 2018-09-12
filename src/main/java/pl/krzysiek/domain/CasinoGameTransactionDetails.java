@@ -7,7 +7,7 @@ import java.util.Objects;
 @Table(name = "casino_game_transaction_details", schema = "cantor", catalog = "")
 public class CasinoGameTransactionDetails {
     private int id;
-    private String results;
+    private int resultNumber;
     private String usedHash;
     private String privateIndivdalCode;
 
@@ -23,13 +23,13 @@ public class CasinoGameTransactionDetails {
     }
 
     @Basic
-    @Column(name = "results")
-    public String getResults() {
-        return results;
+    @Column(name = "result_number")
+    public int getResultNumber() {
+        return resultNumber;
     }
 
-    public void setResults(String results) {
-        this.results = results;
+    public void setResultNumber(int resultNumber) {
+        this.resultNumber = resultNumber;
     }
 
     @Basic
@@ -58,13 +58,22 @@ public class CasinoGameTransactionDetails {
         if (o == null || getClass() != o.getClass()) return false;
         CasinoGameTransactionDetails that = (CasinoGameTransactionDetails) o;
         return id == that.id &&
-                Objects.equals(results, that.results) &&
+                Objects.equals(resultNumber, that.resultNumber) &&
                 Objects.equals(usedHash, that.usedHash) &&
                 Objects.equals(privateIndivdalCode, that.privateIndivdalCode);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, results, usedHash, privateIndivdalCode);
+        return Objects.hash(id, resultNumber, usedHash, privateIndivdalCode);
+    }
+
+    public CasinoGameTransactionDetails(int resultNumber, String usedHash, String privateIndivdalCode) {
+        this.resultNumber = resultNumber;
+        this.usedHash = usedHash;
+        this.privateIndivdalCode = privateIndivdalCode;
+    }
+
+    public CasinoGameTransactionDetails() {
     }
 }

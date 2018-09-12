@@ -227,24 +227,3 @@ public class CurrencyService {
         return ((currencyValue * (rateValue(currencyPair) * feeRate))) - currencyValue * rateValue(currencyPair);
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
